@@ -27,7 +27,7 @@ const GlobalStyle = createGlobalStyle`
     }
     body {
         line-height: 1.3;
-        font-size: 12px;
+        font-size: 14px;
     }
     ol, ul {
         list-style: none;
