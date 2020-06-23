@@ -19,24 +19,28 @@ const Header = (props) => {
   console.log(view);
   return (
     <Wrap>
-      <LogoWrap>
-        <Logo target="_blank" href="https://www.piclick.me/">
-          <LogoImg
-            src="https://www.piclick.me/common/img/main-img/logo.svg"
-            alt="logo"
-          />
-        </Logo>
-      </LogoWrap>
-      <SolutionWrap onMouseEnter={View} onMouseLeave={View}>
-        <SolDrop view={view} />
-      </SolutionWrap>
-      <CatalogueWrap onMouseEnter={Look} onMouseLeave={Look}>
-        <CatalogueDrop look={look} />
-      </CatalogueWrap>
-      <SignWrap>
-        <Login>Login</Login>
-        <SignUp>SignUP</SignUp>
-      </SignWrap>
+      <Container>
+        <LogoWrap>
+          <Logo target="_blank" href="https://www.piclick.me/">
+            <LogoImg
+              src="https://www.piclick.me/common/img/main-img/logo.svg"
+              alt="logo"
+            />
+          </Logo>
+        </LogoWrap>
+        <ConWrap>
+          <SolutionWrap onMouseEnter={View} onMouseLeave={View}>
+            <SolDrop view={view} />
+          </SolutionWrap>
+          <CatalogueWrap onMouseEnter={Look} onMouseLeave={Look}>
+            <CatalogueDrop look={look} />
+          </CatalogueWrap>
+          <SignWrap>
+            <Login>Login</Login>
+            <SignUp>SignUP</SignUp>
+          </SignWrap>
+        </ConWrap>
+      </Container>
     </Wrap>
   );
 };
@@ -53,54 +57,70 @@ const Wrap = styled.div`
   padding: 20px 30px;
   position: fixed;
   z-index: 2000;
+`;
+
+const Container = styled.div`
+  background: white;
+  width: 80%;
+  margin: 0 auto;
+  height: 100%;
+  top: 0;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const LogoWrap = styled.div`
   cursor: pointer;
   margin: 0;
   padding: 0;
-  width: 100px;
   height: 27px;
+  background: red;
+  width: 30%;
 `;
 
 const Logo = styled.a`
   color: #337ab7;
   text-decoration: none;
   background-color: transparent;
+  margin: 0 auto;
 `;
 
 const LogoImg = styled.img`
   width: 100%;
   height: 100%;
   vertical-align: middle;
+  margin: 0 auto;
 `;
 
 const SolutionWrap = styled.div`
-  width: 200px;
   height: 27px;
   display: flex;
   align-items: center;
   font-weight: bold;
+  background: green;
 `;
+//width: 200px;
 
 const CatalogueWrap = styled.div`
-  width: 200px;
   height: 27px;
   display: flex;
   align-items: center;
   font-weight: bold;
+  background: blue;
 `;
+// width: 200px;
 
 const SignWrap = styled.div`
   color: #fff;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 300px;
+  width: 30%;
   height: 27px;
   font-weight: bold;
   font-size: 16px;
+  background: purple;
 `;
 
 const Login = styled.div`
@@ -115,4 +135,12 @@ const SignUp = styled.div`
     transition: all 0.3s ease-in-out;
     filter: brightness(80%);
   }
+`;
+
+const ConWrap = styled.div`
+  display: flex;
+  height: 100%;
+  background: grey;
+  width: 50%;
+  justify-content: space-between;
 `;

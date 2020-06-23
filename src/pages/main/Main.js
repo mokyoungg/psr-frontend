@@ -17,5 +17,7 @@ export default Main;
 //style
 
 const Wrap = styled.div`
-  font-size: 150px;
+  background: grey;
+  width: 100%;
+  margin-top: 64px;
 `;
