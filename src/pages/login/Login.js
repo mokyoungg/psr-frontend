@@ -3,21 +3,17 @@ import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../component/header/Header";
 
-const Main = () => {
+const Login = () => {
   return (
     <>
       <Header />
-      <Wrap></Wrap>
+      <Wrap></Wrap>;
     </>
   );
 };
 
-export default Main;
+export default Login;
 
 //style
 
-const Wrap = styled.div`
-  background: grey;
-  width: 100%;
-  margin-top: 64px;
-`;
+const Wrap = styled.div``;
