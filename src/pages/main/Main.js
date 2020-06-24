@@ -8,13 +8,29 @@ import Filter from "./Filter";
 
 const Main = () => {
   const [data, setData] = useState([]);
+  const [category, setCate] = useState([]);
+  const [color, setColor] = useState([]);
+
+  const arrFilter = (arr, key) => {
+    const newarr = [];
+    arr.map((abc) => {
+      newarr.push(abc[key]);
+    });
+    return Array.from(new Set(newarr));
+  };
 
   useEffect(() => {
     fetch("http://localhost:3000/data/data.json")
       .then((res) => res.json())
-      .then((res) => setData(res.data));
+      .then((res) => {
+        setData(res.data);
+        setCate(arrFilter(res.data, "category"));
+        setColor(arrFilter(res.data, "color"));
+      });
   }, []);
 
+  console.log("data입니다 :", data);
+  console.log("color입니다 :", color);
   return (
     <Wrap>
       <Header />
@@ -24,7 +40,7 @@ const Main = () => {
         </TopSection>
         <MainSection>
           <LeftSection>
-            <Filter data={data} />
+            <Filter color={color} category={category} />
           </LeftSection>
           <RightSection>
             <Content data={data} />

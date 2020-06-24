@@ -7,7 +7,7 @@ const FilterBox = ({ data }) => {
     <ItemContainer>
       <ItemInner>
         <CheckBox type="checkbox" />
-        <Label>{data.category}</Label>
+        <Label>{data}</Label>
       </ItemInner>
     </ItemContainer>
   );

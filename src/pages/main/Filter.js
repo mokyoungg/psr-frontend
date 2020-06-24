@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Icon from "../../image/icon.png";
 import FilterBox from "../../component/filterbox/FilterBox";
 
-const Filter = ({ data }) => {
+const Filter = ({ color, category }) => {
   return (
     <Wrap>
       <FilterContainer>
@@ -18,8 +18,23 @@ const Filter = ({ data }) => {
             </ArrowWrap>
           </Bar>
           <Select>
-            {data.map((data) => {
-              return <FilterBox data={data} />;
+            {category.map((category) => {
+              return <FilterBox data={category} />;
+            })}
+          </Select>
+        </Section>
+        <Section>
+          <Bar>
+            <FilterName>Product Color</FilterName>
+            <ArrowWrap>
+              <Arrow>
+                <AIcon src={Icon} />
+              </Arrow>
+            </ArrowWrap>
+          </Bar>
+          <Select>
+            {color.map((color) => {
+              return <FilterBox data={color} />;
             })}
           </Select>
         </Section>
