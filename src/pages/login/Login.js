@@ -4,12 +4,7 @@ import styled from "styled-components";
 import Header from "../../component/header/Header";
 
 const Login = () => {
-  return (
-    <>
-      <Header />
-      <Wrap></Wrap>;
-    </>
-  );
+  return <Wrap>얍</Wrap>;
 };
 
 export default Login;
