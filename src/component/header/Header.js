@@ -56,6 +56,7 @@ const Wrap = styled.div`
   height: 64px;
   padding: 20px 30px;
   position: fixed;
+  top: 0;
   z-index: 2000;
 `;
 
