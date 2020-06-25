@@ -2,11 +2,11 @@ import React, { Component, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-const Login = () => {
+const SignUp = () => {
   return (
     <Wrap>
       <Section>
-        <LoginBox>
+        <SignUpWrap>
           <LogoBox>PICLICK</LogoBox>
           <InfoBox>
             <div>
@@ -16,19 +16,24 @@ const Login = () => {
               <InputWrap>
                 <InputBox type="password" placeholder="Password" />
               </InputWrap>
+              <InputWrap>
+                <InputBox type="text" placeholder="기업명" />
+              </InputWrap>
+              <InputWrap>
+                <InputBox type="text" placeholder="사업자등록번호" />
+              </InputWrap>
             </div>
-            <SignUpWrap>계정이 없으신가요?</SignUpWrap>
             <BtnBox>
-              <LoginBtn>Login</LoginBtn>
+              <SignUpBtn>가입하기</SignUpBtn>
             </BtnBox>
           </InfoBox>
-        </LoginBox>
+        </SignUpWrap>
       </Section>
     </Wrap>
   );
 };
 
-export default Login;
+export default SignUp;
 
 //style
 
@@ -44,10 +49,10 @@ const Section = styled.div`
   align-content: center;
 `;
 
-const LoginBox = styled.div`
+const SignUpWrap = styled.div`
   background: #fff;
   width: 470px;
-  height: 580px;
+  height: 700px;
   position: relative;
   border-radius: 5px;
   border: 1px solid #ddd;
@@ -55,7 +60,6 @@ const LoginBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #black;
 `;
 
 const LogoBox = styled.div`
@@ -69,7 +73,7 @@ const LogoBox = styled.div`
 const InfoBox = styled.div`
   margin-top: 65px;
   width: 70%;
-  height: 100%;
+  height: 70%;
   color: #8b8b8b;
   font-weight: 300;
   font-size: 14px;
@@ -84,7 +88,7 @@ const InputWrap = styled.div`
   font-size: 15px;
   display: flex;
   justify-content: center;
-  margin: 20px auto;
+  margin: 15px auto;
 `;
 
 const InputBox = styled.input`
@@ -110,9 +114,8 @@ const BtnBox = styled.div`
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
 `;
-//  margin-top: 30px;
 
-const LoginBtn = styled.div`
+const SignUpBtn = styled.div`
   width: 260px;
   background-color: #1c1c1c;
   margin: 0 auto !important;
@@ -128,12 +131,3 @@ const LoginBtn = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-const SignUpWrap = styled.div`
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-`;
-
-// margin-top: 30px;
