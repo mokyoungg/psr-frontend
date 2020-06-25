@@ -1,17 +1,24 @@
 import React, { Component, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Icon from "../../image/icon.png";
 import FilterBox from "../../component/filterbox/FilterBox";
 
-const Filter = ({ color, category }) => {
+const Filter = ({ color, category, brand }) => {
+  const [rotate, setRotate] = useState(false);
+  const handleRotate = () => {
+    setRotate(!rotate);
+  };
+
+  console.log("rote :", rotate);
+
   return (
     <Wrap>
       <FilterContainer>
         <Section>
           <Bar>
             <FilterName>CATEGORY</FilterName>
-            <ArrowWrap>
+            <ArrowWrap onClick={() => handleRotate()}>
               <Arrow>
                 <AIcon src={Icon} />
               </Arrow>
@@ -38,12 +45,38 @@ const Filter = ({ color, category }) => {
             })}
           </Select>
         </Section>
+        <Section>
+          <Bar>
+            <FilterName>Brand</FilterName>
+            <ArrowWrap>
+              <Arrow>
+                <AIcon src={Icon} />
+              </Arrow>
+            </ArrowWrap>
+          </Bar>
+          <Select>
+            {brand.map((brand) => {
+              return <FilterBox data={brand} />;
+            })}
+          </Select>
+        </Section>
       </FilterContainer>
     </Wrap>
   );
 };
 
 export default Filter;
+
+//animation
+
+const rotate = keyframes`
+  from{
+    background: transparent;
+  }
+  to {
+    background: red;
+  }
+`;
 
 //style
 
@@ -57,6 +90,16 @@ const Wrap = styled.div`
   min-height: 3px;
   overflow: auto;
   width: 100%;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #dfdfdf;
+    border-radius: 3px;
+  }
+  &::-webkit-scorllbar-track {
+    background: transparent;
+  }
 `;
 
 const FilterContainer = styled.div`
@@ -89,6 +132,7 @@ const ArrowWrap = styled.span`
   vertical-align: middle;
   line-height: 40px;
   font-size: 12px;
+  background: ${(props) => (props.rotate ? "yellow" : "red")};
 `;
 
 const Arrow = styled.span`
@@ -109,45 +153,20 @@ const AIcon = styled.img`
 `;
 
 const Select = styled.div`
-  height: 203px;
+  height: 100%;
   max-height: 300px;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   font-size: 12px;
-`;
-
-const ItemContainer = styled.div`
-  height: 20px;
-
-  padding: 0 5px;
-  display: flex;
-  font-size: 12px;
-`;
-
-const ItemInner = styled.div`
-  align-self: center;
-  margin: 5px 0 0 !important;
-  position: relative;
-  display: block;
-  padding-left: 20px;
-`;
-
-const CheckBox = styled.input`
-  position: absolute;
-  margin-left: -20px;
-  opacity: 1;
-  z-index: 1;
-  cursor: pointer;
-`;
-
-const Label = styled.label`
-  white-space: nowrap;
-  font-weight: lighter;
-  padding-left: 10px !important;
-  min-height: 20px;
-  margin-bottom: 0;
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #dfdfdf;
+    border-radius: 3px;
+  }
+  &::-webkit-scorllbar-track-element {
+    background: transparent;
+  }
 `;

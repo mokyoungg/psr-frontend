@@ -10,6 +10,9 @@ const Main = () => {
   const [data, setData] = useState([]);
   const [category, setCate] = useState([]);
   const [color, setColor] = useState([]);
+  const [brand, setBrand] = useState([]);
+
+  //분명히 이것보다 간편한 방법이 있을 것이다. 나중에 조정해야할 필요가 있다.
 
   const arrFilter = (arr, key) => {
     const newarr = [];
@@ -26,11 +29,13 @@ const Main = () => {
         setData(res.data);
         setCate(arrFilter(res.data, "category"));
         setColor(arrFilter(res.data, "color"));
+        setBrand(arrFilter(res.data, "brand"));
       });
   }, []);
 
-  console.log("data입니다 :", data);
-  console.log("color입니다 :", color);
+  //console.log("data입니다 :", data);
+
+  console.log("brand입니다 :", brand);
   return (
     <Wrap>
       <Header />
@@ -40,7 +45,7 @@ const Main = () => {
         </TopSection>
         <MainSection>
           <LeftSection>
-            <Filter color={color} category={category} />
+            <Filter color={color} category={category} brand={brand} />
           </LeftSection>
           <RightSection>
             <Content data={data} />
@@ -72,7 +77,6 @@ const TopSection = styled.div`
 `;
 
 const MainSection = styled.div`
-  background: green;
   display: flex;
   justify-content: space-between;
 `;

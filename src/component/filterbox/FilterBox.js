@@ -17,7 +17,6 @@ export default FilterBox;
 
 const ItemContainer = styled.div`
   height: 20px;
-
   padding: 0 5px;
   display: flex;
   font-size: 12px;
