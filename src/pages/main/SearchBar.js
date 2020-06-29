@@ -2,19 +2,24 @@ import React, { Component, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-const SearchBar = () => {
+const SearchBar = ({ searchSet, doSearch }) => {
   return (
     <Wrap>
       <TitleWrap>
         <Title>Product Browsing</Title>
       </TitleWrap>
       <SearchWrap>
-        <Search type="text" placeholder="Search by image URL or Upload Image" />
+        <Search
+          onChange={searchSet}
+          type="text"
+          placeholder="Search by image URL or Upload Image"
+        />
         <PickWrap>
           <PickImg src="https://www.weardex.com/images/cOLOR_white.png" />
         </PickWrap>
         <CameraWrap>
           <CameraImg
+            onClick={() => doSearch()}
             src="https://www.weardex.com/images/cAMERA_white.png"
             alt="carmera_icon"
           />

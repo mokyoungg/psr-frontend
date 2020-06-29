@@ -8,7 +8,7 @@ const ContentBox = ({ data }) => {
       <ContentWrap>
         <ProductWrap>
           <ImgWrap>
-            <Img src={data.image} alt="product" />
+            <Img src={data.product_uri || data.image} alt="product" />
           </ImgWrap>
         </ProductWrap>
         <InfoWrap>
@@ -20,7 +20,7 @@ const ContentBox = ({ data }) => {
             />
             <SimilarText>Similar</SimilarText>
           </Similar>
-          <ProductName>{data.name}</ProductName>
+          <ProductName>{data.product_name || data.name}</ProductName>
           <Price>{data.price}</Price>
         </InfoWrap>
       </ContentWrap>

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import SolDrop from "./SolDrop";
 import CatalogueDrop from "./CatalogueDrop";
 
-const Header = (props) => {
+const Header = ({ history }) => {
   const [view, setView] = useState(false);
   const [look, setLook] = useState(false);
 
@@ -36,8 +36,8 @@ const Header = (props) => {
             <CatalogueDrop look={look} />
           </CatalogueWrap>
           <SignWrap>
-            <Login>Login</Login>
-            <SignUp>SignUP</SignUp>
+            <Login onClick={() => history.push("/login")}>Login</Login>
+            <SignUp onClick={() => history.push("/signup")}>SignUP</SignUp>
           </SignWrap>
         </ConWrap>
       </Container>
@@ -45,7 +45,7 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default withRouter(Header);
 
 //style
 
@@ -125,6 +125,7 @@ const SignWrap = styled.div`
 `;
 
 const Login = styled.div`
+  cursor: pointer;
   &:hover {
     transition: all 0.3s ease-in-out;
     filter: brightness(80%);
@@ -132,6 +133,7 @@ const Login = styled.div`
 `;
 
 const SignUp = styled.div`
+  cursor: pointer;
   &:hover {
     transition: all 0.3s ease-in-out;
     filter: brightness(80%);

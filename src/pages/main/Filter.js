@@ -3,80 +3,63 @@ import { Link, withRouter } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import Icon from "../../image/icon.png";
 import FilterBox from "../../component/filterbox/FilterBox";
+import ArrowBtn from "../../component/arrow/ArrowBtn";
 
 const Filter = ({ color, category, brand }) => {
-  const [rotate, setRotate] = useState(false);
-  const handleRotate = () => {
-    setRotate(!rotate);
+  const [arrowrotate, setRotate] = useState(false);
+  const handleRotate = (e) => {
+    setRotate(!arrowrotate);
   };
 
-  console.log("rote :", rotate);
-
-  return (
-    <Wrap>
-      <FilterContainer>
-        <Section>
-          <Bar>
-            <FilterName>CATEGORY</FilterName>
-            <ArrowWrap onClick={() => handleRotate()}>
+  if (color !== undefined && category !== undefined && brand !== undefined) {
+    return (
+      <Wrap>
+        <FilterContainer>
+          <Section>
+            <Bar>
+              <FilterName>CATEGORY</FilterName>
+              <ArrowBtn arrowrotate={arrowrotate} handleRotate={handleRotate} />
+              {/*<ArrowWrap onClick={() => handleRotate()} arrowrotate={arrowrotate}>
               <Arrow>
-                <AIcon src={Icon} />
+                <AIcon src={Icon} arrowrotate={arrowrotate} />
               </Arrow>
-            </ArrowWrap>
-          </Bar>
-          <Select>
-            {category.map((category) => {
-              return <FilterBox data={category} />;
-            })}
-          </Select>
-        </Section>
-        <Section>
-          <Bar>
-            <FilterName>Product Color</FilterName>
-            <ArrowWrap>
-              <Arrow>
-                <AIcon src={Icon} />
-              </Arrow>
-            </ArrowWrap>
-          </Bar>
-          <Select>
-            {color.map((color) => {
-              return <FilterBox data={color} />;
-            })}
-          </Select>
-        </Section>
-        <Section>
-          <Bar>
-            <FilterName>Brand</FilterName>
-            <ArrowWrap>
-              <Arrow>
-                <AIcon src={Icon} />
-              </Arrow>
-            </ArrowWrap>
-          </Bar>
-          <Select>
-            {brand.map((brand) => {
-              return <FilterBox data={brand} />;
-            })}
-          </Select>
-        </Section>
-      </FilterContainer>
-    </Wrap>
-  );
+  </ArrowWrap>*/}
+            </Bar>
+            <Select arrowrotate={arrowrotate}>
+              {category.map((category) => {
+                return <FilterBox data={category} />;
+              })}
+            </Select>
+          </Section>
+          <Section>
+            <Bar>
+              <FilterName>Product Color</FilterName>
+              <ArrowBtn arrowrotate={arrowrotate} handleRotate={handleRotate} />
+            </Bar>
+            <Select arrowrotate={arrowrotate}>
+              {color.map((color) => {
+                return <FilterBox data={color} />;
+              })}
+            </Select>
+          </Section>
+          <Section>
+            <Bar>
+              <FilterName>Brand</FilterName>
+              <ArrowBtn arrowrotate={arrowrotate} handleRotate={handleRotate} />
+            </Bar>
+            <Select>
+              {brand.map((brand) => {
+                return <FilterBox data={brand} />;
+              })}
+            </Select>
+          </Section>
+        </FilterContainer>
+      </Wrap>
+    );
+  }
 };
 
 export default Filter;
-
-//animation
-
-const rotate = keyframes`
-  from{
-    background: transparent;
-  }
-  to {
-    background: red;
-  }
-`;
 
 //style
 
@@ -132,8 +115,10 @@ const ArrowWrap = styled.span`
   vertical-align: middle;
   line-height: 40px;
   font-size: 12px;
-  background: ${(props) => (props.rotate ? "yellow" : "red")};
+  background: ${(props) => (props.arrowrotate === true ? "yellow" : "red")};
 `;
+
+//${(props) => (props.rotate === true ? "yellow" : "red")};
 
 const Arrow = styled.span`
   position: relative;
@@ -150,8 +135,12 @@ const AIcon = styled.img`
   width: 12px;
   height: 12px;
   transform: rotate(270deg);
+  transform: ${(props) =>
+    props.arrowrotate === true ? `rotate(90deg)` : `rotate(270deg)`};
 `;
 
+//background: ${(props) => (props.arrowrotate === true ? "yellow" : "red")};
+//display: ${(props) => (props.arrowrotate === true ? "none" : "block")};
 const Select = styled.div`
   height: 100%;
   max-height: 300px;
@@ -159,6 +148,7 @@ const Select = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   font-size: 12px;
+  display: ${(props) => (props.arrowrotate === true ? `none` : `block`)};
   &::-webkit-scrollbar {
     width: 6px;
   }

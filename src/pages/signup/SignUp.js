@@ -2,70 +2,69 @@ import React, { Component, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-const Login = ({ history }) => {
+const SignUp = () => {
   /*
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [token, setToken] = useState("");
+  const [password, setPass] = useState("");
+  const [repass, setRepass] = useState("");
 
-  const IdSet = (e) => {
+  const handleEmail = (e) => {
     setEmail(e.target.value);
   };
 
-  const PassSet = (e) => {
-    setPassword(e.target.value);
+  const handlePass = (e) => {
+    setPass(e.target.value);
   };
-*/
+
+  const handleRepass = (e) => {
+    setRepass(e.target.value);
+  };
+
+  */
 
   const [state, setState] = useState({
     email: "",
     password: "",
+    repassword: "",
   });
 
-  const handleLogin = () => {
+  const handleSignUp = () => {
     const formData = new FormData();
     formData.append("email", state.email);
-    formData.append("password", state.password);
-    fetch("http://10.110.161.189:8000/account/login", {
+    formData.append("password1", state.password);
+    formData.append("password2", state.repassword);
+    fetch("http://10.110.161.189:8000/account/sign-up", {
       method: "POST",
       body: formData,
     })
       .then((res) => res.json())
-      .then((res) => {
-        if (res.token) {
-          localStorage.setItem("Login-token", res.token);
-          alert("로그인되었습니다.");
-          history.push("/");
-        } else {
-          alert("이메일과 비밀번호를 다시 확인해주세요");
-        }
-      });
+      .then((res) => console.log(res));
   };
 
   const checkValid = () => {
-    const { email, password } = state;
+    const { email, password, repassword } = state;
     {
-      !email || !password
+      !email || !password || !repassword
         ? alert("입력되지 않은 정보가 있습니다.")
         : checkValid2();
     }
   };
 
   const checkValid2 = () => {
-    const { email, password } = state;
+    const { email, password, repassword } = state;
     if (!email.includes("@")) {
-      alert("이메일 형식이 잘 못되었습니다.");
+      alert("이메일 형식이 잘 못 되었습니다.");
+    } else if (password !== repassword) {
+      alert("비밀번호가 일치하지 않습니다.");
     } else {
-      handleLogin();
+      handleSignUp();
     }
   };
-
-  console.log("state", state);
 
   return (
     <Wrap>
       <Section>
-        <LoginBox>
+        <SignUpWrap>
           <LogoBox>PICLICK</LogoBox>
           <InfoBox>
             <div>
@@ -73,7 +72,7 @@ const Login = ({ history }) => {
                 <InputBox
                   value={state.email}
                   type="text"
-                  placeholder="email"
+                  placeholder="Email"
                   onChange={(e) =>
                     setState({ ...state, email: e.target.value })
                   }
@@ -89,27 +88,35 @@ const Login = ({ history }) => {
                   }
                 />
               </InputWrap>
+              <InputWrap>
+                <InputBox
+                  value={state.repassword}
+                  type="password"
+                  placeholder="비밀번호를 한 번 더 입력해주세요"
+                  onChange={(e) =>
+                    setState({ ...state, repassword: e.target.value })
+                  }
+                />
+              </InputWrap>
             </div>
-            <SignUpWrap onClick={() => history.push("/signup")}>
-              계정이 없으신가요?
-            </SignUpWrap>
             <BtnBox>
-              <LoginBtn
+              <SignUpBtn
                 onClick={() => checkValid()}
                 email={state.email}
                 password={state.password}
+                repassword={state.repassword}
               >
-                Login
-              </LoginBtn>
+                가입하기
+              </SignUpBtn>
             </BtnBox>
           </InfoBox>
-        </LoginBox>
+        </SignUpWrap>
       </Section>
     </Wrap>
   );
 };
 
-export default withRouter(Login);
+export default SignUp;
 
 //style
 
@@ -125,10 +132,10 @@ const Section = styled.div`
   align-content: center;
 `;
 
-const LoginBox = styled.div`
+const SignUpWrap = styled.div`
   background: #fff;
   width: 470px;
-  height: 580px;
+  height: 700px;
   position: relative;
   border-radius: 5px;
   border: 1px solid #ddd;
@@ -136,7 +143,6 @@ const LoginBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #black;
 `;
 
 const LogoBox = styled.div`
@@ -150,7 +156,7 @@ const LogoBox = styled.div`
 const InfoBox = styled.div`
   margin-top: 65px;
   width: 70%;
-  height: 100%;
+  height: 70%;
   color: #8b8b8b;
   font-weight: 300;
   font-size: 14px;
@@ -165,7 +171,7 @@ const InputWrap = styled.div`
   font-size: 15px;
   display: flex;
   justify-content: center;
-  margin: 20px auto;
+  margin: 15px auto;
 `;
 
 const InputBox = styled.input`
@@ -191,9 +197,8 @@ const BtnBox = styled.div`
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
 `;
-//  margin-top: 30px;
 
-const LoginBtn = styled.div`
+const SignUpBtn = styled.div`
   width: 260px;
   margin: 0 auto !important;
   color: #fff;
@@ -209,17 +214,9 @@ const LoginBtn = styled.div`
   align-items: center;
   cursor: pointer;
   background-color: ${(props) =>
-    props.email.length > 1 && props.password.length > 1
+    props.email.length > 1 &&
+    props.password.length > 1 &&
+    props.repassword.length > 1
       ? "#1095CE"
       : "#1c1c1c"};
 `;
-
-const SignUpWrap = styled.div`
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-`;
-
-// margin-top: 30px;
