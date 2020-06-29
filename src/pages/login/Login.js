@@ -2,7 +2,66 @@ import React, { Component, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-const Login = () => {
+const Login = ({ history }) => {
+  /*
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [token, setToken] = useState("");
+
+  const IdSet = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const PassSet = (e) => {
+    setPassword(e.target.value);
+  };
+*/
+
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleLogin = () => {
+    const formData = new FormData();
+    formData.append("email", state.email);
+    formData.append("password", state.password);
+    fetch("http://10.110.161.189:8000/account/login", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem("Login-token", res.token);
+          alert("로그인되었습니다.");
+          history.push("/");
+        } else {
+          alert("이메일과 비밀번호를 다시 확인해주세요");
+        }
+      });
+  };
+
+  const checkValid = () => {
+    const { email, password } = state;
+    {
+      !email || !password
+        ? alert("입력되지 않은 정보가 있습니다.")
+        : checkValid2();
+    }
+  };
+
+  const checkValid2 = () => {
+    const { email, password } = state;
+    if (!email.includes("@")) {
+      alert("이메일 형식이 잘 못되었습니다.");
+    } else {
+      handleLogin();
+    }
+  };
+
+  console.log("state", state);
+
   return (
     <Wrap>
       <Section>
@@ -11,15 +70,37 @@ const Login = () => {
           <InfoBox>
             <div>
               <InputWrap>
-                <InputBox type="text" placeholder="ID" />
+                <InputBox
+                  value={state.email}
+                  type="text"
+                  placeholder="email"
+                  onChange={(e) =>
+                    setState({ ...state, email: e.target.value })
+                  }
+                />
               </InputWrap>
               <InputWrap>
-                <InputBox type="password" placeholder="Password" />
+                <InputBox
+                  value={state.password}
+                  type="password"
+                  placeholder="Password"
+                  onChange={(e) =>
+                    setState({ ...state, password: e.target.value })
+                  }
+                />
               </InputWrap>
             </div>
-            <SignUpWrap>계정이 없으신가요?</SignUpWrap>
+            <SignUpWrap onClick={() => history.push("/signup")}>
+              계정이 없으신가요?
+            </SignUpWrap>
             <BtnBox>
-              <LoginBtn>Login</LoginBtn>
+              <LoginBtn
+                onClick={() => checkValid()}
+                email={state.email}
+                password={state.password}
+              >
+                Login
+              </LoginBtn>
             </BtnBox>
           </InfoBox>
         </LoginBox>
@@ -28,7 +109,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withRouter(Login);
 
 //style
 
@@ -114,7 +195,6 @@ const BtnBox = styled.div`
 
 const LoginBtn = styled.div`
   width: 260px;
-  background-color: #1c1c1c;
   margin: 0 auto !important;
   color: #fff;
   min-width: 72px;
@@ -127,6 +207,11 @@ const LoginBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  background-color: ${(props) =>
+    props.email.length > 1 && props.password.length > 1
+      ? "#1095CE"
+      : "#1c1c1c"};
 `;
 
 const SignUpWrap = styled.div`
@@ -134,6 +219,7 @@ const SignUpWrap = styled.div`
   font-weight: 600;
   display: flex;
   justify-content: center;
+  cursor: pointer;
 `;
 
 // margin-top: 30px;

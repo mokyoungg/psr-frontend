@@ -3,6 +3,64 @@ import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 const SignUp = () => {
+  /*
+  const [email, setEmail] = useState("");
+  const [password, setPass] = useState("");
+  const [repass, setRepass] = useState("");
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePass = (e) => {
+    setPass(e.target.value);
+  };
+
+  const handleRepass = (e) => {
+    setRepass(e.target.value);
+  };
+
+  */
+
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+    repassword: "",
+  });
+
+  const handleSignUp = () => {
+    const formData = new FormData();
+    formData.append("email", state.email);
+    formData.append("password1", state.password);
+    formData.append("password2", state.repassword);
+    fetch("http://10.110.161.189:8000/account/sign-up", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  };
+
+  const checkValid = () => {
+    const { email, password, repassword } = state;
+    {
+      !email || !password || !repassword
+        ? alert("입력되지 않은 정보가 있습니다.")
+        : checkValid2();
+    }
+  };
+
+  const checkValid2 = () => {
+    const { email, password, repassword } = state;
+    if (!email.includes("@")) {
+      alert("이메일 형식이 잘 못 되었습니다.");
+    } else if (password !== repassword) {
+      alert("비밀번호가 일치하지 않습니다.");
+    } else {
+      handleSignUp();
+    }
+  };
+
   return (
     <Wrap>
       <Section>
@@ -11,20 +69,45 @@ const SignUp = () => {
           <InfoBox>
             <div>
               <InputWrap>
-                <InputBox type="text" placeholder="ID" />
+                <InputBox
+                  value={state.email}
+                  type="text"
+                  placeholder="Email"
+                  onChange={(e) =>
+                    setState({ ...state, email: e.target.value })
+                  }
+                />
               </InputWrap>
               <InputWrap>
-                <InputBox type="password" placeholder="Password" />
+                <InputBox
+                  value={state.password}
+                  type="password"
+                  placeholder="Password"
+                  onChange={(e) =>
+                    setState({ ...state, password: e.target.value })
+                  }
+                />
               </InputWrap>
               <InputWrap>
-                <InputBox type="text" placeholder="기업명" />
-              </InputWrap>
-              <InputWrap>
-                <InputBox type="text" placeholder="사업자등록번호" />
+                <InputBox
+                  value={state.repassword}
+                  type="password"
+                  placeholder="비밀번호를 한 번 더 입력해주세요"
+                  onChange={(e) =>
+                    setState({ ...state, repassword: e.target.value })
+                  }
+                />
               </InputWrap>
             </div>
             <BtnBox>
-              <SignUpBtn>가입하기</SignUpBtn>
+              <SignUpBtn
+                onClick={() => checkValid()}
+                email={state.email}
+                password={state.password}
+                repassword={state.repassword}
+              >
+                가입하기
+              </SignUpBtn>
             </BtnBox>
           </InfoBox>
         </SignUpWrap>
@@ -117,7 +200,6 @@ const BtnBox = styled.div`
 
 const SignUpBtn = styled.div`
   width: 260px;
-  background-color: #1c1c1c;
   margin: 0 auto !important;
   color: #fff;
   min-width: 72px;
@@ -130,4 +212,11 @@ const SignUpBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  background-color: ${(props) =>
+    props.email.length > 1 &&
+    props.password.length > 1 &&
+    props.repassword.length > 1
+      ? "#1095CE"
+      : "#1c1c1c"};
 `;

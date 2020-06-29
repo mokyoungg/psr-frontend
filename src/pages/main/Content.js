@@ -4,13 +4,15 @@ import styled from "styled-components";
 import ContentBox from "../../component/contentbox/ContentBox";
 
 const Content = ({ data }) => {
-  return (
-    <Wrap>
-      {data.map((data) => {
-        return <ContentBox data={data} />;
-      })}
-    </Wrap>
-  );
+  if (data !== undefined) {
+    return (
+      <Wrap>
+        {data.map((data) => {
+          return <ContentBox data={data} />;
+        })}
+      </Wrap>
+    );
+  }
 };
 
 export default Content;
