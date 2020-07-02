@@ -5,7 +5,7 @@ import Icon from "../../image/icon.png";
 import FilterBox from "../../component/filterbox/FilterBox";
 import ArrowBtn from "../../component/arrow/ArrowBtn";
 
-const Filter = ({ color, category, brand }) => {
+const Filter = ({ check, setCheck, color, category, brand }) => {
   const [arrowrotate, setRotate] = useState(false);
   const [curIdx, setCurIdx] = useState(0);
 
@@ -39,7 +39,13 @@ const Filter = ({ color, category, brand }) => {
             </Bar>
             <Select idx="1" curIdx={curIdx} arrowrotate={arrowrotate}>
               {category.map((category) => {
-                return <FilterBox data={category} />;
+                return (
+                  <FilterBox
+                    check={check}
+                    setCheck={setCheck}
+                    data={category}
+                  />
+                );
               })}
             </Select>
           </Section>
@@ -55,7 +61,7 @@ const Filter = ({ color, category, brand }) => {
             </Bar>
             <Select idx="2" curIdx={curIdx} arrowrotate={arrowrotate}>
               {color.map((color) => {
-                return <FilterBox data={color} />;
+                return <FilterBox setCheck={setCheck} data={color} />;
               })}
             </Select>
           </Section>
@@ -71,7 +77,7 @@ const Filter = ({ color, category, brand }) => {
             </Bar>
             <Select idx="3" curIdx={curIdx} arrowrotate={arrowrotate}>
               {brand.map((brand) => {
-                return <FilterBox data={brand} />;
+                return <FilterBox setCheck={setCheck} data={brand} />;
               })}
             </Select>
           </Section>

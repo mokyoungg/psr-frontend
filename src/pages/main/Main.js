@@ -27,6 +27,7 @@ const Main = ({ history }) => {
   const [img_file, setImgFile] = useState("");
   const [boxview, setBox] = useState(false);
   const [preview, setPre] = useState("");
+  const [checkk, setCheck] = useState([]);
 
   //분명히 이것보다 간편한 방법이 있을 것이다. 나중에 조정해야할 필요가 있다.
 
@@ -128,12 +129,22 @@ const Main = ({ history }) => {
     fetch("http://localhost:3000/data/data.json")
       .then((res) => res.json())
       .then((res) => {
-        setData(res.data);
-        setCate(arrFilter(res.data, "category"));
-        setColor(arrFilter(res.data, "color"));
-        setBrand(arrFilter(res.data, "brand"));
+        if (checkk.length === 0) {
+          setData(res.data);
+          setCate(arrFilter(res.data, "category"));
+          setColor(arrFilter(res.data, "color"));
+          setBrand(arrFilter(res.data, "brand"));
+        } else if (checkk.length > 0) {
+          const checkfilter = res.data.filter((item) =>
+            checkk.includes(item.category)
+          );
+          setData(checkfilter);
+          setCate(arrFilter(res.data, "category"));
+          setColor(arrFilter(res.data, "color"));
+          setBrand(arrFilter(res.data, "brand"));
+        }
       });
-  }, []);
+  }, [checkk]);
 
   /*
   const setSearch = (e) => {
@@ -198,9 +209,22 @@ const Main = ({ history }) => {
       });
   };
 
-  console.log("data 입니다 :", data);
-  console.log("file :", img_file);
+  //checkk 는 state, 빈 배열
+  const check = (data) => {
+    console.log("들어오는 데이터 :", data);
+    let result = [];
+    if (checkk.includes(data) === true) {
+      result = checkk.filter((a) => a !== data);
+      console.log("있음 :", result);
+      setCheck(result);
+    } else {
+      result = checkk.concat([data]);
+      console.log("없음 :", result);
+      setCheck(result);
+    }
+  };
 
+  console.log("check :", checkk);
   return (
     <Wrap>
       <Header />
@@ -216,7 +240,13 @@ const Main = ({ history }) => {
         <MainSection>
           <LeftSection>
             <SearchBox img={img_url} boxview={boxview} preview={preview} />
-            <Filter color={color} category={category} brand={brand} />
+            <Filter
+              check={check}
+              setCheck={setCheck}
+              color={color}
+              category={category}
+              brand={brand}
+            />
           </LeftSection>
           <RightSection>
             <Content data={data} />

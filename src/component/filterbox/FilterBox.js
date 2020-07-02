@@ -2,11 +2,11 @@ import React, { Component, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-const FilterBox = ({ data }) => {
+const FilterBox = ({ check, data, setCheck }) => {
   return (
     <ItemContainer>
       <ItemInner>
-        <CheckBox type="checkbox" />
+        <CheckBox type="checkbox" onClick={() => check(data)} />
         <Label>{data}</Label>
       </ItemInner>
     </ItemContainer>
