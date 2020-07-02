@@ -7,8 +7,15 @@ import ArrowBtn from "../../component/arrow/ArrowBtn";
 
 const Filter = ({ color, category, brand }) => {
   const [arrowrotate, setRotate] = useState(false);
-  const handleRotate = (e) => {
+  const [curIdx, setCurIdx] = useState(0);
+
+  const handleIdx = (num) => {
+    console.log("curIdx :", curIdx);
+  };
+
+  const handleRotate = (num) => {
     setRotate(!arrowrotate);
+    setCurIdx(num);
   };
 
   if (color !== undefined && category !== undefined && brand !== undefined) {
@@ -18,14 +25,19 @@ const Filter = ({ color, category, brand }) => {
           <Section>
             <Bar>
               <FilterName>CATEGORY</FilterName>
-              <ArrowBtn arrowrotate={arrowrotate} handleRotate={handleRotate} />
+              <ArrowBtn
+                idx="1"
+                curIdx={curIdx}
+                arrowrotate={arrowrotate}
+                handleRotate={handleRotate}
+              />
               {/*<ArrowWrap onClick={() => handleRotate()} arrowrotate={arrowrotate}>
               <Arrow>
                 <AIcon src={Icon} arrowrotate={arrowrotate} />
               </Arrow>
   </ArrowWrap>*/}
             </Bar>
-            <Select arrowrotate={arrowrotate}>
+            <Select idx="1" curIdx={curIdx} arrowrotate={arrowrotate}>
               {category.map((category) => {
                 return <FilterBox data={category} />;
               })}
@@ -34,9 +46,14 @@ const Filter = ({ color, category, brand }) => {
           <Section>
             <Bar>
               <FilterName>Product Color</FilterName>
-              <ArrowBtn arrowrotate={arrowrotate} handleRotate={handleRotate} />
+              <ArrowBtn
+                idx="2"
+                curIdx={curIdx}
+                arrowrotate={arrowrotate}
+                handleRotate={handleRotate}
+              />
             </Bar>
-            <Select arrowrotate={arrowrotate}>
+            <Select idx="2" curIdx={curIdx} arrowrotate={arrowrotate}>
               {color.map((color) => {
                 return <FilterBox data={color} />;
               })}
@@ -45,9 +62,14 @@ const Filter = ({ color, category, brand }) => {
           <Section>
             <Bar>
               <FilterName>Brand</FilterName>
-              <ArrowBtn arrowrotate={arrowrotate} handleRotate={handleRotate} />
+              <ArrowBtn
+                idx="3"
+                curIdx={curIdx}
+                arrowrotate={arrowrotate}
+                handleRotate={handleRotate}
+              />
             </Bar>
-            <Select>
+            <Select idx="3" curIdx={curIdx} arrowrotate={arrowrotate}>
               {brand.map((brand) => {
                 return <FilterBox data={brand} />;
               })}
@@ -107,36 +129,12 @@ const FilterName = styled.p`
   line-height: 40px;
   font-size: 17px;
   font-weight: bold;
-`;
-
-const ArrowWrap = styled.span`
-  padding-right: 5px;
-  float: right;
-  vertical-align: middle;
-  line-height: 40px;
-  font-size: 12px;
-  background: ${(props) => (props.arrowrotate === true ? "yellow" : "red")};
-`;
-
-//${(props) => (props.rotate === true ? "yellow" : "red")};
-
-const Arrow = styled.span`
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  font-family: "Glyphicons Halflings";
-  font-weight: 800;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  margin-left: 20px;
-`;
-
-const AIcon = styled.img`
-  width: 12px;
-  height: 12px;
-  transform: rotate(270deg);
-  transform: ${(props) =>
-    props.arrowrotate === true ? `rotate(90deg)` : `rotate(270deg)`};
+  @media only screen and (max-width: 1200px) {
+    font-size: 100%;
+  }
+  @media only screen and (max-width: 768px) {
+    font-size: 100%;
+  }
 `;
 
 //background: ${(props) => (props.arrowrotate === true ? "yellow" : "red")};
@@ -148,7 +146,11 @@ const Select = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   font-size: 12px;
-  display: ${(props) => (props.arrowrotate === true ? `none` : `block`)};
+  display: ${(props) =>
+    props.arrowrotate === true && props.curIdx === props.idx
+      ? `none`
+      : `block`};
+
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -160,3 +162,8 @@ const Select = styled.div`
     background: transparent;
   }
 `;
+
+// display: ${(props) => (props.arrowrotate === true ? `none` : `block`)};
+
+//display: ${(props) =>
+//props.arrowrotate === true && props.idx === props.curIdx ? "block" : "none"}

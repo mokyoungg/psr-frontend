@@ -2,20 +2,28 @@ import React, { Component, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-const SearchBar = ({ searchSet, doSearch }) => {
+const SearchBar = ({ searchSet, doSearch, setFile, fileSearch }) => {
   return (
     <Wrap>
       <TitleWrap>
         <Title>Product Browsing</Title>
       </TitleWrap>
       <SearchWrap>
+        <File
+          type="file"
+          accept="image/jpeg, image/png"
+          onChange={setFile}
+        ></File>
         <Search
           onChange={searchSet}
           type="text"
           placeholder="Search by image URL or Upload Image"
         />
         <PickWrap>
-          <PickImg src="https://www.weardex.com/images/cOLOR_white.png" />
+          <PickImg
+            onClick={() => fileSearch()}
+            src="https://www.weardex.com/images/cOLOR_white.png"
+          />
         </PickWrap>
         <CameraWrap>
           <CameraImg
@@ -55,6 +63,9 @@ const SearchWrap = styled.div`
   margin-bottom: 12px;
   transition: all 0.2s;
   margin-top: 10px;
+  @media only screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const Search = styled.input`
@@ -120,4 +131,9 @@ const PickImg = styled.img`
   color: #fff;
   margin: 3px;
   height: 24px;
+`;
+
+const File = styled.input`
+  width: 30px;
+  height: 100%;
 `;

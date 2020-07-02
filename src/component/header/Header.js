@@ -52,7 +52,6 @@ export default withRouter(Header);
 const Wrap = styled.div`
   background: #1c1c1c;
   width: 100%;
-  min-width: 1400px;
   height: 64px;
   padding: 20px 30px;
   position: fixed;
@@ -69,6 +68,11 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media only screen and (max-width: 768px) {
+    display: flex;
+    justify-content: space-between;
+    width: 105%;
+  }
 `;
 
 const LogoWrap = styled.div`
@@ -78,6 +82,9 @@ const LogoWrap = styled.div`
   height: 27px;
   background: red;
   width: 30%;
+  @media only screen and (max-width: 768px) {
+    width: 70%;
+  }
 `;
 
 const Logo = styled.a`
@@ -100,6 +107,9 @@ const SolutionWrap = styled.div`
   align-items: center;
   font-weight: bold;
   background: green;
+  @media only screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 //width: 200px;
 
@@ -109,6 +119,9 @@ const CatalogueWrap = styled.div`
   align-items: center;
   font-weight: bold;
   background: blue;
+  @media only screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 // width: 200px;
 
@@ -122,6 +135,9 @@ const SignWrap = styled.div`
   font-weight: bold;
   font-size: 16px;
   background: purple;
+  @media only screen and (max-width: 1200px) {
+    font-size: 100%;
+  }
 `;
 
 const Login = styled.div`
@@ -138,6 +154,12 @@ const SignUp = styled.div`
     transition: all 0.3s ease-in-out;
     filter: brightness(80%);
   }
+  @media only screen and (max-width: 768px) {
+    display: none;
+  }
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
 `;
 
 const ConWrap = styled.div`
@@ -146,4 +168,9 @@ const ConWrap = styled.div`
   background: grey;
   width: 50%;
   justify-content: space-between;
+  @media only screen and (max-width: 768px) {
+    display: flex;
+    justify-content: flex-end;
+    width: 30%;
+  }
 `;

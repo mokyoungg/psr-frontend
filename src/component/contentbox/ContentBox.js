@@ -3,6 +3,10 @@ import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 const ContentBox = ({ data }) => {
+  const numberFormat = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   return (
     <Wrap>
       <ContentWrap>
@@ -21,7 +25,7 @@ const ContentBox = ({ data }) => {
             <SimilarText>Similar</SimilarText>
           </Similar>
           <ProductName>{data.product_name || data.name}</ProductName>
-          <Price>{data.price}</Price>
+          <Price>{numberFormat(data.price) + `원`}</Price>
         </InfoWrap>
       </ContentWrap>
     </Wrap>
@@ -39,6 +43,12 @@ const Wrap = styled.div`
   color: #333;
   margin: 20px 10px;
   width: 200px;
+  @media only screen and (max-width: 768px) {
+    width: 300px;
+  }
+  @media only screen and (max-width: 1200px) {
+    width: 200px;
+  }
 `;
 
 const ContentWrap = styled.div`
@@ -78,7 +88,6 @@ const Img = styled.img`
   vertical-align: middle;
   border: 0;
   border-style: none;
-  width: 100%;
   height: 90%;
   max-width: inherit;
   :hover {

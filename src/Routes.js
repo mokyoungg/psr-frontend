@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Main from "./pages/main/Main";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
+import VisualSearch from "./pages/visualSearch/VisualSearch";
 
 class Routes extends React.Component {
   render() {
@@ -12,6 +13,7 @@ class Routes extends React.Component {
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/search" component={VisualSearch} />
         </Switch>
       </Router>
     );
