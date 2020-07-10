@@ -5,7 +5,17 @@ import Icon from "../../image/icon.png";
 import FilterBox from "../../component/filterbox/FilterBox";
 import ArrowBtn from "../../component/arrow/ArrowBtn";
 
-const Filter = ({ check, setCheck, color, category, brand }) => {
+const Filter = ({
+  checked,
+  handleCheck,
+  check,
+  setCheck,
+  color,
+  category,
+  brand,
+  data,
+  value,
+}) => {
   const [arrowrotate, setRotate] = useState(false);
   const [curIdx, setCurIdx] = useState(0);
 
@@ -38,17 +48,24 @@ const Filter = ({ check, setCheck, color, category, brand }) => {
   </ArrowWrap>*/}
             </Bar>
             <Select idx="1" curIdx={curIdx} arrowrotate={arrowrotate}>
-              {category.map((category) => {
+              {category.map((category, index) => {
                 return (
                   <FilterBox
+                    value={value}
+                    checked={checked}
+                    handleCheck={handleCheck}
                     check={check}
                     setCheck={setCheck}
-                    data={category}
+                    category={category}
+                    data={data}
+                    key={index}
+                    id={index}
                   />
                 );
               })}
             </Select>
           </Section>
+          {/*
           <Section>
             <Bar>
               <FilterName>Product Color</FilterName>
@@ -81,6 +98,7 @@ const Filter = ({ check, setCheck, color, category, brand }) => {
               })}
             </Select>
           </Section>
+            */}
         </FilterContainer>
       </Wrap>
     );
@@ -101,16 +119,6 @@ const Wrap = styled.div`
   min-height: 3px;
   overflow: auto;
   width: 100%;
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #dfdfdf;
-    border-radius: 3px;
-  }
-  &::-webkit-scorllbar-track {
-    background: transparent;
-  }
 `;
 
 const FilterContainer = styled.div`
@@ -135,12 +143,6 @@ const FilterName = styled.p`
   line-height: 40px;
   font-size: 17px;
   font-weight: bold;
-  @media only screen and (max-width: 1200px) {
-    font-size: 100%;
-  }
-  @media only screen and (max-width: 768px) {
-    font-size: 100%;
-  }
 `;
 
 //background: ${(props) => (props.arrowrotate === true ? "yellow" : "red")};
@@ -156,17 +158,6 @@ const Select = styled.div`
     props.arrowrotate === true && props.curIdx === props.idx
       ? `none`
       : `block`};
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #dfdfdf;
-    border-radius: 3px;
-  }
-  &::-webkit-scorllbar-track-element {
-    background: transparent;
-  }
 `;
 
 // display: ${(props) => (props.arrowrotate === true ? `none` : `block`)};

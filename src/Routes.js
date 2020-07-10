@@ -4,6 +4,7 @@ import Main from "./pages/main/Main";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
 import VisualSearch from "./pages/visualSearch/VisualSearch";
+import { trackPromise } from "react-promise-tracker";
 
 class Routes extends React.Component {
   render() {

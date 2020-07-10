@@ -29,15 +29,16 @@ const Header = ({ history }) => {
           </Logo>
         </LogoWrap>
         <ConWrap>
+          {/*
           <SolutionWrap onMouseEnter={View} onMouseLeave={View}>
             <SolDrop view={view} />
           </SolutionWrap>
           <CatalogueWrap onMouseEnter={Look} onMouseLeave={Look}>
             <CatalogueDrop look={look} />
-          </CatalogueWrap>
+          </CatalogueWrap>*/}
           <SignWrap>
             <Login onClick={() => history.push("/login")}>Login</Login>
-            <SignUp onClick={() => history.push("/signup")}>SignUP</SignUp>
+            <SignUp onClick={() => history.push("/signup")}>회원가입</SignUp>
           </SignWrap>
         </ConWrap>
       </Container>
@@ -60,30 +61,44 @@ const Wrap = styled.div`
 `;
 
 const Container = styled.div`
-  background: white;
-  width: 80%;
+  width: 77%;
   margin: 0 auto;
   height: 100%;
   top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  @media only screen and (max-width: 768px) {
-    display: flex;
-    justify-content: space-between;
-    width: 105%;
+  @media only screen and (max-width: 479px) {
+    width: 110%;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    width: 110%;
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 87%;
+  }
+  @media only screen and (min-width: 1024px) and (max-width: 1200px) {
+    width: 82%;
   }
 `;
 
 const LogoWrap = styled.div`
   cursor: pointer;
-  margin: 0;
+  margin-left: -10%;
   padding: 0;
   height: 27px;
-  background: red;
   width: 30%;
-  @media only screen and (max-width: 768px) {
-    width: 70%;
+  @media only screen and (max-width: 479px) {
+    width: 50%;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    width: 50%;
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 50%;
+  }
+  @media only screen and (min-width: 1024px) and (max-width: 1200px) {
+    width: 50%;
   }
 `;
 
@@ -106,10 +121,6 @@ const SolutionWrap = styled.div`
   display: flex;
   align-items: center;
   font-weight: bold;
-  background: green;
-  @media only screen and (max-width: 768px) {
-    display: none;
-  }
 `;
 //width: 200px;
 
@@ -118,10 +129,6 @@ const CatalogueWrap = styled.div`
   display: flex;
   align-items: center;
   font-weight: bold;
-  background: blue;
-  @media only screen and (max-width: 768px) {
-    display: none;
-  }
 `;
 // width: 200px;
 
@@ -130,13 +137,19 @@ const SignWrap = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 30%;
+  width: 70%;
   height: 27px;
   font-weight: bold;
   font-size: 16px;
-  background: purple;
-  @media only screen and (max-width: 1200px) {
-    font-size: 100%;
+  @media only screen and (max-width: 479px) {
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 70%;
+  }
+  @media only screen and (min-width: 1024px) and (max-width: 1200px) {
+    width: 70%;
   }
 `;
 
@@ -154,23 +167,22 @@ const SignUp = styled.div`
     transition: all 0.3s ease-in-out;
     filter: brightness(80%);
   }
-  @media only screen and (max-width: 768px) {
-    display: none;
-  }
-  @media only screen and (max-width: 1200px) {
-    display: none;
-  }
 `;
 
 const ConWrap = styled.div`
   display: flex;
   height: 100%;
-  background: grey;
-  width: 50%;
-  justify-content: space-between;
-  @media only screen and (max-width: 768px) {
-    display: flex;
-    justify-content: flex-end;
-    width: 30%;
+  width: 30%;
+  justify-content: flex-end;
+
+  @media only screen and (max-width: 479px) {
+    width: 70%;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    width: 50%;
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+  }
+  @media only screen and (min-width: 1024px) and (max-width: 1200px) {
   }
 `;

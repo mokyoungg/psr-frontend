@@ -42,9 +42,6 @@ const DropBtn = styled.button`
     transition: all 0.3s ease-in-out;
     filter: brightness(80%);
   }
-  @media only screen and (max-width: 1200px) {
-    font-size: 100%;
-  }
 `;
 
 const Drop = styled.i``;

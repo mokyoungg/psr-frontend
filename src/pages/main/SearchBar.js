@@ -9,11 +9,6 @@ const SearchBar = ({ searchSet, doSearch, setFile, fileSearch }) => {
         <Title>Product Browsing</Title>
       </TitleWrap>
       <SearchWrap>
-        <File
-          type="file"
-          accept="image/jpeg, image/png"
-          onChange={setFile}
-        ></File>
         <Search
           onChange={searchSet}
           type="text"
@@ -21,16 +16,21 @@ const SearchBar = ({ searchSet, doSearch, setFile, fileSearch }) => {
         />
         <PickWrap>
           <PickImg
-            onClick={() => fileSearch()}
+            onClick={() => doSearch()}
             src="https://www.weardex.com/images/cOLOR_white.png"
           />
         </PickWrap>
         <CameraWrap>
           <CameraImg
-            onClick={() => doSearch()}
+            onClick={() => fileSearch()}
             src="https://www.weardex.com/images/cAMERA_white.png"
             alt="carmera_icon"
           />
+          <File
+            type="file"
+            accept="image/jpeg, image/png"
+            onChange={setFile}
+          ></File>
         </CameraWrap>
       </SearchWrap>
     </Wrap>
@@ -43,6 +43,7 @@ export default SearchBar;
 
 const Wrap = styled.div`
   margin-top: 0;
+  width: 100%;
 `;
 
 const TitleWrap = styled.div``;
@@ -63,9 +64,6 @@ const SearchWrap = styled.div`
   margin-bottom: 12px;
   transition: all 0.2s;
   margin-top: 10px;
-  @media only screen and (max-width: 768px) {
-    font-size: 12px;
-  }
 `;
 
 const Search = styled.input`
@@ -94,6 +92,19 @@ const Search = styled.input`
   cursor: text;
   padding-left: 10px;
   color: #000;
+  @media only screen and (max-width: 359px) {
+    font-size: 10px;
+  }
+  @media only screen and (min-width: 360px) and (max-width: 479px) {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+  }
+  @media only screen and (min-width: 1024px) and (max-width: 1200px) {
+  }
 `;
 
 const CameraWrap = styled.div`
@@ -107,11 +118,14 @@ const CameraWrap = styled.div`
   padding-left: 6px;
   padding-top: 3px;
   color: #fff;
+  position: relative;
+  cursor: pointer;
 `;
 
 const CameraImg = styled.img`
   color: #fff;
   height: 30px;
+  cursor: pointer;
 `;
 
 const PickWrap = styled.div`
@@ -125,15 +139,22 @@ const PickWrap = styled.div`
   padding-left: 6px;
   padding-top: 3px;
   color: #fff;
+  cursor: pointer;
 `;
 
 const PickImg = styled.img`
   color: #fff;
   margin: 3px;
   height: 24px;
+  cursor: pointer;
 `;
 
 const File = styled.input`
-  width: 30px;
   height: 100%;
+  position: absolute;
+  left: 1%;
+
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
 `;

@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-const SignUp = () => {
+const SignUp = ({ history }) => {
   /*
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
@@ -38,7 +38,10 @@ const SignUp = () => {
       body: formData,
     })
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => {
+        alert("가입되었습니다.");
+        history.push("/login");
+      });
   };
 
   const checkValid = () => {
@@ -116,7 +119,7 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default withRouter(SignUp);
 
 //style
 
