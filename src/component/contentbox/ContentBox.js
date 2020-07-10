@@ -3,6 +3,14 @@ import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 const ContentBox = ({ data }) => {
+  const numberFormat = (num) => {
+    if (num > 1000) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    } else {
+      return "0";
+    }
+  };
+
   return (
     <Wrap>
       <ContentWrap>
@@ -21,7 +29,7 @@ const ContentBox = ({ data }) => {
             <SimilarText>Similar</SimilarText>
           </Similar>
           <ProductName>{data.product_name || data.name}</ProductName>
-          <Price>{data.price}</Price>
+          <Price>{numberFormat(data.price) + `원`}</Price>
         </InfoWrap>
       </ContentWrap>
     </Wrap>
@@ -39,14 +47,32 @@ const Wrap = styled.div`
   color: #333;
   margin: 20px 10px;
   width: 200px;
+  :hover {
+    padding: -1px;
+    border: 1px solid #1696cf;
+  }
+  @media only screen and (max-width: 479px) {
+    width: 100%;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    width: 100%;
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 29%;
+  }
+  @media only screen and (min-width: 1024px) and (max-width: 1200px) {
+    width: 29%;
+  }
 `;
+
+// transition: all 0.5s ease-in-out;
 
 const ContentWrap = styled.div`
   border-radius: 2px;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 `;
+// transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
 const ProductWrap = styled.div`
   position: relative;
@@ -73,19 +99,19 @@ const ImgWrap = styled.div`
 
 const Img = styled.img`
   width: 100%;
-  max-height: 100%;
+
   display: inline-block;
   vertical-align: middle;
   border: 0;
   border-style: none;
-  width: 100%;
-  height: 90%;
+  height: 100%;
   max-width: inherit;
   :hover {
     transition: all 0.3s ease-in-out;
-    transform: scale(1.5);
   }
 `;
+//    transform: scale(1.5);
+//max-height: 100%;
 
 const InfoWrap = styled.div`
   padding: 10px;

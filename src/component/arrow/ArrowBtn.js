@@ -3,16 +3,16 @@ import { Link, withRouter } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import Icon from "../../image/icon.png";
 
-const ArrowBtn = ({ arrowrotate, handleRotate }) => {
+const ArrowBtn = ({ arrowrotate, curIdx, handleRotate, idx }) => {
   //const [arrowrotate, setRotate] = useState(false);
   //const handleRotate = (e) => {
   //  setRotate(!arrowrotate);
   //};
-  console.log("rote :", arrowrotate);
+
   return (
-    <ArrowWrap onClick={() => handleRotate()} arrowrotate={arrowrotate}>
+    <ArrowWrap onClick={() => handleRotate(idx)} arrowrotate={arrowrotate}>
       <Arrow>
-        <AIcon src={Icon} arrowrotate={arrowrotate} />
+        <AIcon src={Icon} arrowrotate={arrowrotate} idx={idx} curIdx={curIdx} />
       </Arrow>
     </ArrowWrap>
   );
@@ -26,7 +26,6 @@ const ArrowWrap = styled.span`
   vertical-align: middle;
   line-height: 40px;
   font-size: 12px;
-  background: ${(props) => (props.arrowrotate === true ? "yellow" : "red")};
 `;
 
 //${(props) => (props.rotate === true ? "yellow" : "red")};
@@ -47,5 +46,7 @@ const AIcon = styled.img`
   height: 12px;
   transform: rotate(270deg);
   transform: ${(props) =>
-    props.arrowrotate === true ? `rotate(90deg)` : `rotate(270deg)`};
+    props.arrowrotate === true && props.idx === props.curIdx
+      ? `rotate(90deg)`
+      : `rotate(270deg)`};
 `;

@@ -5,10 +5,27 @@ import Icon from "../../image/icon.png";
 import FilterBox from "../../component/filterbox/FilterBox";
 import ArrowBtn from "../../component/arrow/ArrowBtn";
 
-const Filter = ({ color, category, brand }) => {
+const Filter = ({
+  checked,
+  handleCheck,
+  check,
+  setCheck,
+  color,
+  category,
+  brand,
+  data,
+  value,
+}) => {
   const [arrowrotate, setRotate] = useState(false);
-  const handleRotate = (e) => {
+  const [curIdx, setCurIdx] = useState(0);
+
+  const handleIdx = (num) => {
+    console.log("curIdx :", curIdx);
+  };
+
+  const handleRotate = (num) => {
     setRotate(!arrowrotate);
+    setCurIdx(num);
   };
 
   if (color !== undefined && category !== undefined && brand !== undefined) {
@@ -18,41 +35,70 @@ const Filter = ({ color, category, brand }) => {
           <Section>
             <Bar>
               <FilterName>CATEGORY</FilterName>
-              <ArrowBtn arrowrotate={arrowrotate} handleRotate={handleRotate} />
+              <ArrowBtn
+                idx="1"
+                curIdx={curIdx}
+                arrowrotate={arrowrotate}
+                handleRotate={handleRotate}
+              />
               {/*<ArrowWrap onClick={() => handleRotate()} arrowrotate={arrowrotate}>
               <Arrow>
                 <AIcon src={Icon} arrowrotate={arrowrotate} />
               </Arrow>
   </ArrowWrap>*/}
             </Bar>
-            <Select arrowrotate={arrowrotate}>
-              {category.map((category) => {
-                return <FilterBox data={category} />;
+            <Select idx="1" curIdx={curIdx} arrowrotate={arrowrotate}>
+              {category.map((category, index) => {
+                return (
+                  <FilterBox
+                    value={value}
+                    checked={checked}
+                    handleCheck={handleCheck}
+                    check={check}
+                    setCheck={setCheck}
+                    category={category}
+                    data={data}
+                    key={index}
+                    id={index}
+                  />
+                );
               })}
             </Select>
           </Section>
+          {/*
           <Section>
             <Bar>
               <FilterName>Product Color</FilterName>
-              <ArrowBtn arrowrotate={arrowrotate} handleRotate={handleRotate} />
+              <ArrowBtn
+                idx="2"
+                curIdx={curIdx}
+                arrowrotate={arrowrotate}
+                handleRotate={handleRotate}
+              />
             </Bar>
-            <Select arrowrotate={arrowrotate}>
+            <Select idx="2" curIdx={curIdx} arrowrotate={arrowrotate}>
               {color.map((color) => {
-                return <FilterBox data={color} />;
+                return <FilterBox setCheck={setCheck} data={color} />;
               })}
             </Select>
           </Section>
           <Section>
             <Bar>
               <FilterName>Brand</FilterName>
-              <ArrowBtn arrowrotate={arrowrotate} handleRotate={handleRotate} />
+              <ArrowBtn
+                idx="3"
+                curIdx={curIdx}
+                arrowrotate={arrowrotate}
+                handleRotate={handleRotate}
+              />
             </Bar>
-            <Select>
+            <Select idx="3" curIdx={curIdx} arrowrotate={arrowrotate}>
               {brand.map((brand) => {
-                return <FilterBox data={brand} />;
+                return <FilterBox setCheck={setCheck} data={brand} />;
               })}
             </Select>
           </Section>
+            */}
         </FilterContainer>
       </Wrap>
     );
@@ -73,16 +119,6 @@ const Wrap = styled.div`
   min-height: 3px;
   overflow: auto;
   width: 100%;
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #dfdfdf;
-    border-radius: 3px;
-  }
-  &::-webkit-scorllbar-track {
-    background: transparent;
-  }
 `;
 
 const FilterContainer = styled.div`
@@ -109,36 +145,6 @@ const FilterName = styled.p`
   font-weight: bold;
 `;
 
-const ArrowWrap = styled.span`
-  padding-right: 5px;
-  float: right;
-  vertical-align: middle;
-  line-height: 40px;
-  font-size: 12px;
-  background: ${(props) => (props.arrowrotate === true ? "yellow" : "red")};
-`;
-
-//${(props) => (props.rotate === true ? "yellow" : "red")};
-
-const Arrow = styled.span`
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  font-family: "Glyphicons Halflings";
-  font-weight: 800;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  margin-left: 20px;
-`;
-
-const AIcon = styled.img`
-  width: 12px;
-  height: 12px;
-  transform: rotate(270deg);
-  transform: ${(props) =>
-    props.arrowrotate === true ? `rotate(90deg)` : `rotate(270deg)`};
-`;
-
 //background: ${(props) => (props.arrowrotate === true ? "yellow" : "red")};
 //display: ${(props) => (props.arrowrotate === true ? "none" : "block")};
 const Select = styled.div`
@@ -148,15 +154,13 @@ const Select = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   font-size: 12px;
-  display: ${(props) => (props.arrowrotate === true ? `none` : `block`)};
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #dfdfdf;
-    border-radius: 3px;
-  }
-  &::-webkit-scorllbar-track-element {
-    background: transparent;
-  }
+  display: ${(props) =>
+    props.arrowrotate === true && props.curIdx === props.idx
+      ? `none`
+      : `block`};
 `;
+
+// display: ${(props) => (props.arrowrotate === true ? `none` : `block`)};
+
+//display: ${(props) =>
+//props.arrowrotate === true && props.idx === props.curIdx ? "block" : "none"}
