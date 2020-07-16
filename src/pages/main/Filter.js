@@ -7,12 +7,8 @@ import ArrowBtn from "../../component/arrow/ArrowBtn";
 import PriceSlider from "../../component/priceSlider/PriceSlider";
 
 const Filter = ({
-  
   check,
   category,
-  brand,
-  data,
-  value,
   price,
   minP,
   maxP,
@@ -24,111 +20,100 @@ const Filter = ({
 }) => {
   const [arrowrotate, setRotate] = useState(false);
   const [curIdx, setCurIdx] = useState(0);
-  const [color, setColor] = useState(["black", "white", "gray", "red", "orange", "yellow", "green", "blue", "navy", "purple", "pink"])
+  const [color, setColor] = useState([
+    "black",
+    "white",
+    "gray",
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "blue",
+    "navy",
+    "purple",
+    "pink",
+  ]);
 
   const handleRotate = (num) => {
     setRotate(!arrowrotate);
     setCurIdx(num);
   };
 
- 
-
-    return (
-      <Wrap>
-        <FilterContainer>
-          <Section>
-            <Bar>
-              <FilterName>CATEGORY</FilterName>
-              <ArrowBtn
-                idx="1"
-                curIdx={curIdx}
-                arrowrotate={arrowrotate}
-                handleRotate={handleRotate}
-              />
-              {/*<ArrowWrap onClick={() => handleRotate()} arrowrotate={arrowrotate}>
-              <Arrow>
-                <AIcon src={Icon} arrowrotate={arrowrotate} />
-              </Arrow>
-  </ArrowWrap>*/}
-            </Bar>
-            <Select idx="1" curIdx={curIdx} arrowrotate={arrowrotate}>
-              {category.map((category, index) => {
-                return (
-                  <FilterBox
-                    check={check}
-                    category={category}
-                  />
-                );
-              })}
-            </Select>
-          </Section>
-          <Section>
-            <Bar>
-              <FilterName>Gender</FilterName>
-              <ArrowBtn
-                idx="2"
-                curIdx={curIdx}
-                arrowrotate={arrowrotate}
-                handleRotate={handleRotate}
-              />
-            </Bar>
-            <Select idx="2" curIdx={curIdx} arrowrotate={arrowrotate}>
-              {gender.map((gender, index) => {
-                return (
-                  <FilterBox
-                    category={gender}
-                    check={genderCheck}
-                  />
-                );
-              })}
-            </Select>
-          </Section>
-          <Section>
-            <Bar>
-              <FilterName>Color</FilterName>
-              <ArrowBtn
-                idx="3"
-                curIdx={curIdx}
-                arrowrotate={arrowrotate}
-                handleRotate={handleRotate}
-              />
-            </Bar>
-            <Select idx="3" curIdx={curIdx} arrowrotate={arrowrotate}>
-              {color.map((color, index) => {
-                return (
-                  <FilterBox
-                    category={color}
-                    check={genderCheck}
-                  />
-                );
-              })}
-            </Select>
-          </Section>
-          <Section>
-            <Bar>
-              <FilterName>Price</FilterName>
-              <ArrowBtn
-                idx="4"
-                curIdx={curIdx}
-                arrowrotate={arrowrotate}
-                handleRotate={handleRotate}
-              />
-            </Bar>
-            <SliderWrap idx="4" curIdx={curIdx} arrowrotate={arrowrotate}>
-              <PriceSlider
-                price={price}
-                minP={minP}
-                maxP={maxP}
-                handlePrice={handlePrice}
-                setRen={setRen}
-                ren={ren}
-              />
-            </SliderWrap>
-          </Section>
-        </FilterContainer>
-      </Wrap>
-    );
-  
+  return (
+    <Wrap>
+      <FilterContainer>
+        <Section>
+          <Bar>
+            <FilterName>CATEGORY</FilterName>
+            <ArrowBtn
+              idx="1"
+              curIdx={curIdx}
+              arrowrotate={arrowrotate}
+              handleRotate={handleRotate}
+            />
+          </Bar>
+          <Select idx="1" curIdx={curIdx} arrowrotate={arrowrotate}>
+            {category.map((category, index) => {
+              return <FilterBox check={check} category={category} />;
+            })}
+          </Select>
+        </Section>
+        <Section>
+          <Bar>
+            <FilterName>Gender</FilterName>
+            <ArrowBtn
+              idx="2"
+              curIdx={curIdx}
+              arrowrotate={arrowrotate}
+              handleRotate={handleRotate}
+            />
+          </Bar>
+          <Select idx="2" curIdx={curIdx} arrowrotate={arrowrotate}>
+            {gender.map((gender, index) => {
+              return <FilterBox category={gender} check={genderCheck} />;
+            })}
+          </Select>
+        </Section>
+        <Section>
+          <Bar>
+            <FilterName>Color</FilterName>
+            <ArrowBtn
+              idx="3"
+              curIdx={curIdx}
+              arrowrotate={arrowrotate}
+              handleRotate={handleRotate}
+            />
+          </Bar>
+          <Select idx="3" curIdx={curIdx} arrowrotate={arrowrotate}>
+            {color.map((color, index) => {
+              return <FilterBox category={color} check={genderCheck} />;
+            })}
+          </Select>
+        </Section>
+        <Section>
+          <Bar>
+            <FilterName>Price</FilterName>
+            <ArrowBtn
+              idx="4"
+              curIdx={curIdx}
+              arrowrotate={arrowrotate}
+              handleRotate={handleRotate}
+            />
+          </Bar>
+          <SliderWrap idx="4" curIdx={curIdx} arrowrotate={arrowrotate}>
+            <PriceSlider
+              price={price}
+              minP={minP}
+              maxP={maxP}
+              handlePrice={handlePrice}
+              setRen={setRen}
+              ren={ren}
+            />
+          </SliderWrap>
+        </Section>
+      </FilterContainer>
+    </Wrap>
+  );
 };
 
 export default Filter;
@@ -161,7 +146,6 @@ const Wrap = styled.div`
     margin-bottom: 5%;
   }
   @media only screen and (min-width: 480px) and (max-width: 767px) {
- 
   }
   @media only screen and (min-width: 768px) and (max-width: 1023px) {
   }
@@ -169,13 +153,12 @@ const Wrap = styled.div`
   }
 `;
 
-  //height: 389px;
-  //max-width: 240px;
-  //min-height: 3px;
-  //overflow: auto;
+//height: 389px;
+//max-width: 240px;
+//min-height: 3px;
+//overflow: auto;
 
-const FilterContainer = styled.div`
-`;
+const FilterContainer = styled.div``;
 //overflow-y: auto;
 const Section = styled.div``;
 
@@ -205,7 +188,6 @@ const FilterName = styled.p`
     font-size: 15px;
   }
   @media only screen and (min-width: 1024px) and (max-width: 1200px) {
-    
   }
 `;
 

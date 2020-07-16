@@ -1,18 +1,11 @@
 import React, { Component, useState, useEffect } from "react";
-import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-const FilterBox = ({
-  check,
-  category,
-}) => {
+const FilterBox = ({ check, category }) => {
   return (
     <ItemContainer>
       <ItemInner>
-        <CheckBox
-          type="checkbox"
-          onClick={() => check(category)}
-        />
+        <CheckBox type="checkbox" onClick={() => check(category)} />
         <Label>{category}</Label>
       </ItemInner>
     </ItemContainer>
