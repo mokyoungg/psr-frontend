@@ -21,7 +21,8 @@ const Header = ({ history }) => {
     <Wrap>
       <Container>
         <LogoWrap>
-          <Logo target="_blank" href="https://www.piclick.me/">
+          <Logo onClick={() => history.push("/")}>
+            {/* <Logo target="_blank" href="https://www.piclick.me/"> */}
             <LogoImg
               src="https://www.piclick.me/common/img/main-img/logo.svg"
               alt="logo"
@@ -102,7 +103,9 @@ const LogoWrap = styled.div`
   }
 `;
 
-const Logo = styled.a`
+const Logo = styled.div`
+  width: 100%;
+  height: 100%;
   color: #337ab7;
   text-decoration: none;
   background-color: transparent;

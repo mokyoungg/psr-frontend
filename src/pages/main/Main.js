@@ -9,6 +9,11 @@ import SearchBox from "../../component/searchbox/SearchBox";
 import { URL } from "../../Config";
 import { trackPromise } from "react-promise-tracker";
 import Indicator from "../../component/Indicator/Indicator";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
+import { connect } from "react-redux";
+import { addImg } from "../../actions/action";
+import SideBar from "../../component/sidebar/SideBar";
 
 const Main = ({ history }) => {
   /*
@@ -37,10 +42,27 @@ const Main = ({ history }) => {
   const [tempD, setTemp] = useState([]);
   const [checked, setChecked] = useState(false);
   const [value, setValue] = useState(``);
-  const [load, setLoad] = useState(false);
+  const [load, setLoad] = useState(true);
   const [res, setRes] = useState([]);
+  const [ren, setRen] = useState(true);
+  const [price, setPrice] = useState([]);
+  const [tempP, setTempP] = useState([]);
+  const [minP, setMin] = useState();
+  const [maxP, setMax] = useState();
+  const [gender, setGen] = useState([]);
+  const [checkG, setGch] = useState([]);
+  const [strToAl, setGA] = useState([]);
+  const [filterOn, setOn] = useState(false);
 
+  const handleOn = () => {
+    setOn(!filterOn)
+  }
   //분명히 이것보다 간편한 방법이 있을 것이다. 나중에 조정해야할 필요가 있다.
+
+  const handlePrice = (event, newValue) => {
+    setPrice(newValue);
+    setTempP(newValue);
+  };
 
   const handleCheck = (key) => {
     //console.log("key :", key);
@@ -49,7 +71,7 @@ const Main = ({ history }) => {
   };
 
   const handleLoad = () => {
-    setLoad(true);
+    setLoad(false);
   };
 
   const arrFilter = (arr, key) => {
@@ -58,6 +80,27 @@ const Main = ({ history }) => {
       newarr.push(abc[key]);
     });
     return Array.from(new Set(newarr));
+  };
+
+  const genderFilter = (data) => {
+    let result = [];
+
+    const gender_rule = {
+      M: "Man",
+      W: "Woman",
+      U: "Unisex",
+    };
+
+    data.map((data) => {
+      if (data.product_label1 === "M") {
+        result.push(gender_rule[data.product_label1]);
+      } else if (data.product_label1 === "W") {
+        result.push(gender_rule[data.product_label1]);
+      } else if (data.product_label1 === "U") {
+        result.push(gender_rule[data.product_label1]);
+      }
+    });
+    return Array.from(new Set(result));
   };
 
   const categoryFilter = (data) => {
@@ -128,6 +171,7 @@ const Main = ({ history }) => {
         result.push(anything_rule[data.product_label3]);
       } else if (data.product_labe2 === "T") {
         result.push(impossible_rule[data.product_lable13]);
+      } else if (data.product_label1 === "U") {
       }
     });
     return Array.from(new Set(result));
@@ -184,6 +228,18 @@ const Main = ({ history }) => {
     return result;
   };
 
+  const genLastFilter = (a, b) => {
+    let result = [];
+    for (let i = 0; i < a.length; i++) {
+      for (let j = 0; j < b.length; j++) {
+        if (a[i]["product_label1"] === b[j]) {
+          result = result.concat([a[i]]);
+        }
+      }
+    }
+    return result;
+  };
+
   const makeData = (aaa) => {
     let result = [];
     for (let i = 0; i < aaa.length; i++) {
@@ -210,70 +266,125 @@ const Main = ({ history }) => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/data/data.json`) //`${URL}/` http://localhost:3000/data/data.json
+    setTimeout(() => {
+      setLoad(false);
+    }, 3000);
+    fetch(`${URL}`) //`${URL}/` http://localhost:3000/data/data.json
       .then((res) => res.json())
       .then((res) => {
-        if (checkk.length === 0 && boxview === false) {
-          setData(res.data);
-          setCate(categoryFilter(res.data));
+        if (boxview === false) {
+          const price = res.product.map((data) => data.price);
+          const max = price.reduce(function (pre, cur) {
+            return pre > cur ? pre : cur;
+          });
+          const min = price.reduce(function (pre, cur) {
+            return pre > cur ? cur : pre;
+          });
+          setData(res.product);
+          setCate(categoryFilter(res.product));
+          setMin(min);
+          setMax(max);
+          setPrice([min, max]);
+          setGen(genderFilter(res.product));
+          if (checkk.length > 0) {
+            const checkedData = lastFilter(res.product, strTonum);
+            setData(checkedData);
+            if (tempP.legnth > 0) {
+              const priceData = checkedData.filter(
+                (data) => tempP[0] <= data.price && data.price <= tempP[1]
+              );
+              setData(priceData);
+              setPrice(tempP[0], tempP[1]);
+              if (checkG.length > 0) {
+                const genderData = genLastFilter(priceData, strToAl);
+                setData(genderData);
+              }
+            }
+          } else if (tempP.length > 0) {
+            const priceData = res.product.filter(
+              (data) => tempP[0] <= data.price && data.price <= tempP[1]
+            );
+            
+            setData(priceData);
+            setPrice([tempP[0], tempP[1]]);
+          } else if (checkG.length > 0) {
+            const genderData = genLastFilter(res.product, strToAl);
+            setData(genderData);
+          }
           //setCate(arrFilter(res.data, category));
           //setBrand(arrFilter(res.data, brand));
           //setColor(arrFilter(res.data, color));
-        } else if (checkk.length > 0 && boxview === false) {
-          const checkedData = lastFilter(res.product, strTonum);
-          setData(checkedData);
-          //여기서부터 봐야지
-        } else if (checkk.length === 0 && boxview === true) {
+        } else if (boxview === true) {
+          const price = tempD.map((data) => data.price);
+          const max = price.reduce(function (pre, cur) {
+            return pre > cur ? pre : cur;
+          });
+          const min = price.reduce(function (pre, cur) {
+            return pre > cur ? cur : pre;
+          });
           setData(tempD);
-        } else if (checkk.length > 0 && boxview === true) {
-          const checkedData2 = lastFilter(tempD, strTonum);
-          setData(checkedData2);
+          setMin(min);
+          setMax(max);
+          setPrice([min, max]);
+          if (checkk.length > 0) {
+            const checkedData = lastFilter(tempD, strTonum);
+            setData(checkedData);
+            if (tempP.length > 0) {
+              const priceData = checkedData.filter(
+                (data) => tempP[0] <= data.price && data.price <= tempP[1]
+              );
+              setData(priceData);
+              setPrice([tempP[0], tempP[1]]);
+              if (checkG.length > 0) {
+                const genderData = genLastFilter(priceData, strToAl);
+                setData(genderData);
+              }
+            }
+          } else if (tempP.length > 0) {
+            const priceData = tempD.filter(
+              (data) => tempP[0] <= data.price && data.price <= tempP[1]
+            );
+            setData(priceData);
+            setPrice([tempP[0], tempP[1]]);
+          } else if (checkG.length > 0) {
+            const genderData = genLastFilter(tempD, strToAl);
+            setData(genderData);
+          }
         }
       });
-  }, [checkk, boxview]);
+  }, [checkk, boxview, ren, checkG]);
 
-  //console.log("kkkk :", checkk);
-  //console.log("data :", data);
-  /*
-  const setSearch = (e) => {
-    setState({ ...state, img_url: e.target.value, boxview: false });
-  };
-*/
   const setSearch = (e) => {
     setImgUrl(e.target.value);
     setBox(false);
   };
 
   const doSearch = () => {
+    setCheck([]);
+    setRen(!ren);
+    setLoad(true);
     console.log("click!");
     if (img_url) {
-      trackPromise(
-        fetch(`${URL}/image`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            img_url: img_url,
-          }),
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            const useData = makeData(res.grouped_results);
-            const useCoordi = makeCoordi(res.grouped_results);
-            setData(useData);
-            setTemp(useData);
-            setBox(true);
-            setCate(categoryFilter(useData));
-            setCoor(mCoordi(useCoordi));
-            setRes(res.grouped_results);
-            /*
-          setCate(categoryFilter(res.product));
-          setCoor(res.coordinates);
-          setBox(true);*/
-            //console.log(res);
-          })
-      );
+      fetch(`${URL}/image`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          img_url: img_url,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          const useData = makeData(res.grouped_results);
+          const useCoordi = makeCoordi(res.grouped_results);
+          setData(useData);
+          setTemp(useData);
+          setBox(true);
+          setCate(categoryFilter(useData));
+          setCoor(mCoordi(useCoordi));
+          setRes(res.grouped_results);
+        });
     }
   };
 
@@ -295,26 +406,28 @@ const Main = ({ history }) => {
   };
 
   const fileSearch = (file) => {
+    setCheck([]);
+    setRen(!ren);
+    setLoad(true);
     console.log("fileClick!");
     const formData = new FormData();
     formData.append("data", file);
-    trackPromise(
-      fetch(`${URL}/file`, {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          //console.log("grs :", res.grouped_results);
-          const useData = makeData(res.grouped_results);
-          //console.log("DHKZ: ", useData);
-          setData(useData);
-          setTemp(useData);
-          setCate(categoryFilter(useData));
-          setBox(true);
-          setRes(res.grouped_results);
-        })
-    );
+
+    fetch(`${URL}/file`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        //console.log("grs :", res.grouped_results);
+        const useData = makeData(res.grouped_results);
+        //console.log("DHKZ: ", useData);
+        setData(useData);
+        setTemp(useData);
+        setCate(categoryFilter(useData));
+        setBox(true);
+        setRes(res.grouped_results);
+      });
   };
 
   //checkk 는 state, 빈 배열
@@ -334,15 +447,49 @@ const Main = ({ history }) => {
       setNS(stringToNum(result));
     }
   };
-  console.log("res입니다 :", res);
-  //console.log("NS: ", strTonum);
-  //console.log("img_file :", img_file);
+
+  const stringToAl = (aaa) => {
+    let result = [];
+    const rule = {
+      Unisex: "U",
+      Woman: "W",
+      Man: "M",
+    };
+
+    aaa.map((item) => {
+      result.push(rule[item]);
+    });
+    return result;
+  };
+
+  const genderCheck = (category) => {
+    console.log("들어오는 데이터 :", category);
+    let result = [];
+    if (checkG.includes(category) === true) {
+      result = checkG.filter((a) => a !== category);
+      console.log("ge있 :", result);
+      setGch(result);
+      setGA(stringToAl(result));
+    } else {
+      result = checkG.concat([category]);
+      console.log("ge 없 :", result);
+      setGch(result);
+      setGA(stringToAl(result));
+    }
+  };
+
+  const handleData = (index) => {
+    setData(res[index].product);
+  };
+
+ 
   return (
     <Wrap>
       <Header />
       <Section>
         <Hidden>
           <SearchBox
+            handleData={handleData}
             coordi={coordi}
             img={img_url}
             boxview={boxview}
@@ -350,7 +497,6 @@ const Main = ({ history }) => {
             res={res}
           />
         </Hidden>
-        <Indicator load={load} />
         <TopSection>
           <SearchBar
             doSearch={doSearch}
@@ -358,32 +504,67 @@ const Main = ({ history }) => {
             setFile={setFile}
             fileSearch={fileSearch}
           />
+          <Hidden>
+            <FilterBtn onClick={()=> handleOn()}>상세필터</FilterBtn>
+            {filterOn &&
+            <Filter  value={value}
+                checked={checked}
+                handleCheck={handleCheck}
+                check={check}
+                setCheck={setCheck}
+                color={color}
+                category={category}
+                brand={brand}
+                data={data}
+                price={price}
+                minP={minP}
+                maxP={maxP}
+                handlePrice={handlePrice}
+                setRen={setRen}
+                ren={ren}
+                gender={gender}
+                genderCheck={genderCheck} />}
+          </Hidden>
         </TopSection>
-        <MainSection>
-          <LeftSection>
-            <SearchBox
-              coordi={coordi}
-              img={img_url}
-              boxview={boxview}
-              preview={preview}
-              res={res}
-            />
-            <Filter
-              value={value}
-              checked={checked}
-              handleCheck={handleCheck}
-              check={check}
-              setCheck={setCheck}
-              color={color}
-              category={category}
-              brand={brand}
-              data={data}
-            />
-          </LeftSection>
-          <RightSection>
-            <Content data={data} />
-          </RightSection>
-        </MainSection>
+
+        {load ? (
+          <Indicator />
+        ) : (
+          <MainSection>
+            <LeftSection>
+              <SearchBox
+                handleData={handleData}
+                coordi={coordi}
+                img={img_url}
+                boxview={boxview}
+                preview={preview}
+                res={res}
+              />
+              <Filter
+                value={value}
+                checked={checked}
+                handleCheck={handleCheck}
+                check={check}
+                setCheck={setCheck}
+                color={color}
+                category={category}
+                brand={brand}
+                data={data}
+                price={price}
+                minP={minP}
+                maxP={maxP}
+                handlePrice={handlePrice}
+                setRen={setRen}
+                ren={ren}
+                gender={gender}
+                genderCheck={genderCheck}
+              />
+            </LeftSection>
+            <RightSection>
+              <Content data={data} />
+            </RightSection>
+          </MainSection>
+        )}
       </Section>
     </Wrap>
   );
@@ -411,9 +592,7 @@ const Section = styled.div`
   @media only screen and (min-width: 768px) and (max-width: 1023px) {
     width: 80%;
   }
-  @media only screen and (min-width: 1024px) and (max-width: 1200px){
-
-  }
+  @media only screen and (min-width: 1024px) and (max-width: 1200px) {
   }
 `;
 //background: green;
@@ -468,7 +647,6 @@ const LeftSection = styled.div`
   }
   @media only screen and (min-width: 1024px) and (max-width: 1200px) {
     width: 20%;
-
     top: 0;
   }
 `;
@@ -507,6 +685,13 @@ const Hidden = styled.div`
     display: none;
   }
 `;
+
+const FilterBtn = styled.div `
+  font-size: 15px;
+  padding: 3%;
+  text-align: center;
+  border: 0.5px solid #ddd;
+`
 
 //반응형 기준
 /* PC , 테블릿 가로 (해상도 768px ~ 1023px)

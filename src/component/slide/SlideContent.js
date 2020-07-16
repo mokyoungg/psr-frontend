@@ -1,10 +1,8 @@
 import React, { Component, useState, useEffect } from "react";
-import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
-import { connect } from "react-redux";
-import { addImg } from "../../actions/action";
+import { Link, withRouter } from "react-router-dom";
 
-const ContentBox = ({ data }) => {
+const SlideContent = ({ handleRen, data }) => {
   const [dataD, setData] = useState({});
   const numberFormat = (num) => {
     if (num > 1000) {
@@ -14,16 +12,13 @@ const ContentBox = ({ data }) => {
     }
   };
   const dataHandler = () => {
+    handleRen();
     setData(data);
   };
 
-  const dataCheck = () => {
-  
-    addImg({ data: data.image });
-  };
-
+  console.log("dataD :", dataD);
   return (
-    <Wrap onMouseEnter={() => dataHandler()} onClick={() => dataCheck()}>
+    <Wrap onClick={() => dataHandler()}>
       <Link
         style={{ textDecoration: "none" }}
         to={{
@@ -45,8 +40,7 @@ const ContentBox = ({ data }) => {
             </ImgWrap>
           </ProductWrap>
           <InfoWrap>
-            <BrandInfo>Brand
-            </BrandInfo>
+            <BrandInfo>{data.brand}</BrandInfo>
             {/*
             <Similar>
               <SimilarIcon
@@ -56,8 +50,7 @@ const ContentBox = ({ data }) => {
               <SimilarText>Similar</SimilarText>
             </Similar>*/}
             <ProductName>{data.product_name || data.name}</ProductName>
-            <Price>{`Price : ` + numberFormat(data.price) + `원`}</Price>
-            <Score>{`Score : ` + data.score}</Score>
+            <Price>{numberFormat(data.price) + `원`}</Price>
           </InfoWrap>
         </ContentWrap>
       </Link>
@@ -65,32 +58,29 @@ const ContentBox = ({ data }) => {
   );
 };
 
-export default connect(null, { addImg })(ContentBox);
-//style
+export default SlideContent;
 
 const Wrap = styled.div`
   position: relative;
   min-height: 1px;
   font-size: 15px;
   color: #333;
-  margin: 20px 10px;
+  margin: 20px auto;
   width: 200px;
   :hover {
     padding: -1px;
     border: 1px solid #1696cf;
   }
   @media only screen and (max-width: 479px) {
-    width: 100%;
   }
   @media only screen and (min-width: 480px) and (max-width: 767px) {
-    width: 100%;
   }
   @media only screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 29%;
   }
   @media only screen and (min-width: 1024px) and (max-width: 1200px) {
-    width: 29%;
+    width: 250px;
   }
+
 `;
 
 // transition: all 0.5s ease-in-out;
@@ -217,11 +207,3 @@ const Price = styled.div`
   line-height: 18px;
   color: #777;
 `;
-
-const Score = styled.div `
-  visibility: visible;
-  height: 18px;
-  font-size: 12px;
-  line-height: 18px;
-  color: #777;
-`

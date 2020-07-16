@@ -4,23 +4,32 @@ import styled, { keyframes } from "styled-components";
 import Icon from "../../image/icon.png";
 import FilterBox from "../../component/filterbox/FilterBox";
 import ArrowBtn from "../../component/arrow/ArrowBtn";
+import PriceSlider from "../../component/priceSlider/PriceSlider";
 
 const Filter = ({
   checked,
   handleCheck,
   check,
   setCheck,
-  color,
   category,
   brand,
   data,
   value,
+  price,
+  minP,
+  maxP,
+  handlePrice,
+  setRen,
+  ren,
+  gender,
+  genderCheck,
 }) => {
   const [arrowrotate, setRotate] = useState(false);
   const [curIdx, setCurIdx] = useState(0);
+  const [color, setColor] = useState(["black", "white", "gray", "red", "orange", "yellow", "green", "blue", "navy", "purple", "pink"])
 
   const handleIdx = (num) => {
-    console.log("curIdx :", curIdx);
+   
   };
 
   const handleRotate = (num) => {
@@ -28,6 +37,7 @@ const Filter = ({
     setCurIdx(num);
   };
 
+ 
   if (color !== undefined && category !== undefined && brand !== undefined) {
     return (
       <Wrap>
@@ -65,10 +75,9 @@ const Filter = ({
               })}
             </Select>
           </Section>
-          {/*
           <Section>
             <Bar>
-              <FilterName>Product Color</FilterName>
+              <FilterName>Gender</FilterName>
               <ArrowBtn
                 idx="2"
                 curIdx={curIdx}
@@ -77,14 +86,26 @@ const Filter = ({
               />
             </Bar>
             <Select idx="2" curIdx={curIdx} arrowrotate={arrowrotate}>
-              {color.map((color) => {
-                return <FilterBox setCheck={setCheck} data={color} />;
+              {gender.map((gender, index) => {
+                return (
+                  <FilterBox
+                    category={gender}
+                    value={value}
+                    checked={checked}
+                    handleCheck={handleCheck}
+                    check={genderCheck}
+                    setCheck={setCheck}
+                    data={data}
+                    key={index}
+                    id={index}
+                  />
+                );
               })}
             </Select>
           </Section>
           <Section>
             <Bar>
-              <FilterName>Brand</FilterName>
+              <FilterName>Color</FilterName>
               <ArrowBtn
                 idx="3"
                 curIdx={curIdx}
@@ -93,12 +114,44 @@ const Filter = ({
               />
             </Bar>
             <Select idx="3" curIdx={curIdx} arrowrotate={arrowrotate}>
-              {brand.map((brand) => {
-                return <FilterBox setCheck={setCheck} data={brand} />;
+              {color.map((color, index) => {
+                return (
+                  <FilterBox
+                    category={color}
+                    value={value}
+                    checked={checked}
+                    handleCheck={handleCheck}
+                    check={genderCheck}
+                    setCheck={setCheck}
+                    data={data}
+                    key={index}
+                    id={index}
+                  />
+                );
               })}
             </Select>
           </Section>
-            */}
+          <Section>
+            <Bar>
+              <FilterName>Price</FilterName>
+              <ArrowBtn
+                idx="4"
+                curIdx={curIdx}
+                arrowrotate={arrowrotate}
+                handleRotate={handleRotate}
+              />
+            </Bar>
+            <SliderWrap idx="4" curIdx={curIdx} arrowrotate={arrowrotate}>
+              <PriceSlider
+                price={price}
+                minP={minP}
+                maxP={maxP}
+                handlePrice={handlePrice}
+                setRen={setRen}
+                ren={ren}
+              />
+            </SliderWrap>
+          </Section>
         </FilterContainer>
       </Wrap>
     );
@@ -114,17 +167,43 @@ const Wrap = styled.div`
   padding-top: 0px;
   top: 0px;
   padding-right: 3px;
-  height: 389px;
+  height: auto;
   max-width: 240px;
   min-height: 3px;
-  overflow: auto;
+  overflow: visible;
   width: 100%;
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #dfdfdf;
+    border-radius: 3px;
+  }
+  -::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  @media only screen and (max-width: 479px) {
+    margin: 0 auto;
+    height: auto;
+    margin-bottom: 5%;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+ 
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+  }
+  @media only screen and (min-width: 1024px) and (max-width: 1200px) {
+  }
 `;
+
+  //height: 389px;
+  //max-width: 240px;
+  //min-height: 3px;
+  //overflow: auto;
 
 const FilterContainer = styled.div`
-  overflow-y: auto;
 `;
-
+//overflow-y: auto;
 const Section = styled.div``;
 
 const Bar = styled.div`
@@ -143,23 +222,55 @@ const FilterName = styled.p`
   line-height: 40px;
   font-size: 17px;
   font-weight: bold;
+  @media only screen and (max-width: 479px) {
+    margin-top: 2%;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    margin-top: 2%;
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    font-size: 15px;
+  }
+  @media only screen and (min-width: 1024px) and (max-width: 1200px) {
+    
+  }
 `;
 
 //background: ${(props) => (props.arrowrotate === true ? "yellow" : "red")};
 //display: ${(props) => (props.arrowrotate === true ? "none" : "block")};
 const Select = styled.div`
   height: 100%;
-  max-height: 300px;
   width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
   font-size: 12px;
   display: ${(props) =>
     props.arrowrotate === true && props.curIdx === props.idx
       ? `none`
       : `block`};
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #dfdfdf;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
 `;
+//max-height: 300px;
+//width: 100%;
+//overflow-y: auto;
+//overflow-x: hidden;
 
+const SliderWrap = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 10px;
+  display: ${(props) =>
+    props.arrowrotate === true && props.curIdx === props.idx
+      ? `none`
+      : `block`};
+`;
 // display: ${(props) => (props.arrowrotate === true ? `none` : `block`)};
 
 //display: ${(props) =>

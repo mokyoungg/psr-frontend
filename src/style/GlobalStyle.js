@@ -46,6 +46,9 @@ const GlobalStyle = createGlobalStyle`
         cursor: pointer;
         outline: 0;
     }
+    a {
+        style: none;
+    }
 `;
 
 export default GlobalStyle;
