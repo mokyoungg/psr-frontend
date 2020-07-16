@@ -7,10 +7,8 @@ import ArrowBtn from "../../component/arrow/ArrowBtn";
 import PriceSlider from "../../component/priceSlider/PriceSlider";
 
 const Filter = ({
-  checked,
-  handleCheck,
+  
   check,
-  setCheck,
   category,
   brand,
   data,
@@ -28,17 +26,13 @@ const Filter = ({
   const [curIdx, setCurIdx] = useState(0);
   const [color, setColor] = useState(["black", "white", "gray", "red", "orange", "yellow", "green", "blue", "navy", "purple", "pink"])
 
-  const handleIdx = (num) => {
-   
-  };
-
   const handleRotate = (num) => {
     setRotate(!arrowrotate);
     setCurIdx(num);
   };
 
  
-  if (color !== undefined && category !== undefined && brand !== undefined) {
+
     return (
       <Wrap>
         <FilterContainer>
@@ -61,15 +55,8 @@ const Filter = ({
               {category.map((category, index) => {
                 return (
                   <FilterBox
-                    value={value}
-                    checked={checked}
-                    handleCheck={handleCheck}
                     check={check}
-                    setCheck={setCheck}
                     category={category}
-                    data={data}
-                    key={index}
-                    id={index}
                   />
                 );
               })}
@@ -90,14 +77,7 @@ const Filter = ({
                 return (
                   <FilterBox
                     category={gender}
-                    value={value}
-                    checked={checked}
-                    handleCheck={handleCheck}
                     check={genderCheck}
-                    setCheck={setCheck}
-                    data={data}
-                    key={index}
-                    id={index}
                   />
                 );
               })}
@@ -118,14 +98,7 @@ const Filter = ({
                 return (
                   <FilterBox
                     category={color}
-                    value={value}
-                    checked={checked}
-                    handleCheck={handleCheck}
                     check={genderCheck}
-                    setCheck={setCheck}
-                    data={data}
-                    key={index}
-                    id={index}
                   />
                 );
               })}
@@ -155,7 +128,7 @@ const Filter = ({
         </FilterContainer>
       </Wrap>
     );
-  }
+  
 };
 
 export default Filter;

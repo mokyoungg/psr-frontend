@@ -7,31 +7,14 @@ import Content from "./Content";
 import Filter from "./Filter";
 import SearchBox from "../../component/searchbox/SearchBox";
 import { URL } from "../../Config";
-import { trackPromise } from "react-promise-tracker";
 import Indicator from "../../component/Indicator/Indicator";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import Loader from "react-loader-spinner";
-import { connect } from "react-redux";
-import { addImg } from "../../actions/action";
-import SideBar from "../../component/sidebar/SideBar";
+
 
 const Main = ({ history }) => {
-  /*
-  const [state, setState] = useState({
-    data: [],
-    category: [],
-
-    
-    color: [],
-    brand: [],
-    img_url: "",
-    boxview: false,
-  });
-  */
+  
   const [data, setData] = useState([]);
   const [category, setCate] = useState([]);
-  const [color, setColor] = useState([]);
-  const [brand, setBrand] = useState([]);
   const [img_url, setImgUrl] = useState("");
   const [img_file, setImgFile] = useState("");
   const [boxview, setBox] = useState(false);
@@ -65,8 +48,6 @@ const Main = ({ history }) => {
   };
 
   const handleCheck = (key) => {
-    //console.log("key :", key);
-    //setValue(e.target.value);
     setChecked(!checked);
   };
 
@@ -512,9 +493,9 @@ const Main = ({ history }) => {
                 handleCheck={handleCheck}
                 check={check}
                 setCheck={setCheck}
-                color={color}
+            
                 category={category}
-                brand={brand}
+            
                 data={data}
                 price={price}
                 minP={minP}
@@ -546,9 +527,7 @@ const Main = ({ history }) => {
                 handleCheck={handleCheck}
                 check={check}
                 setCheck={setCheck}
-                color={color}
                 category={category}
-                brand={brand}
                 data={data}
                 price={price}
                 minP={minP}
