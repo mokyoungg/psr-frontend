@@ -11,6 +11,7 @@ const FilterBox = ({
   data,
   key,
   id,
+  gender,
 }) => {
   return (
     <ItemContainer>

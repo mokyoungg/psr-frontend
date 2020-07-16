@@ -6,7 +6,20 @@ import Theme from "./style/Theme";
 import GlobalStyle from "./style/GlobalStyle";
 import { usePromiseTracker } from "react-promise-tracker";
 import Loader from "react-loader-spinner";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import rootReducer from "./reducers/index";
+import { composeWithDevTools } from "redux-devtools-extension";
 
+const store = createStore(rootReducer, composeWithDevTools());
+
+console.log("store.getState :", store.getState());
+let unsubscribe = store.subscribe(() => console.log(store.getState()));
+//unsubscribe();
+
+/*
 const LoadingIndicator = (props) => {
   const { promiseInProgress } = usePromiseTracker();
   return (
@@ -25,13 +38,14 @@ const LoadingIndicator = (props) => {
     )
   );
 };
-
+   <LoadingIndicator /> */
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={Theme}>
       <GlobalStyle />
-      <Routes />
-      <LoadingIndicator />
+      <Provider store={store}>
+        <Routes />
+      </Provider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

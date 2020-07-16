@@ -14,11 +14,12 @@ const SearchBar = ({ searchSet, doSearch, setFile, fileSearch }) => {
           type="text"
           placeholder="Search by image URL or Upload Image"
         />
-        <PickWrap>
-          <PickImg
+        <PickWrap onClick={() => doSearch()}>
+          <SearchBtn onClick={() => doSearch()}>Search</SearchBtn>
+          {/*<PickImg
             onClick={() => doSearch()}
             src="https://www.weardex.com/images/cOLOR_white.png"
-          />
+          />*/}
         </PickWrap>
         <CameraWrap>
           <CameraImg
@@ -147,6 +148,14 @@ const PickImg = styled.img`
   margin: 3px;
   height: 24px;
   cursor: pointer;
+`;
+
+const SearchBtn = styled.div`
+  font-size: 80%;
+  vertical-align: middle;
+  width: 100%;
+  height: 100%;
+  padding-top: 20%;
 `;
 
 const File = styled.input`
