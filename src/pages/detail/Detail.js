@@ -48,7 +48,6 @@ const Detail = ({ history, location }) => {
       });
   }, []);*/
 
-
   useEffect(() => {
     setTimeout(() => {
       setLoad(false);
@@ -82,7 +81,7 @@ const Detail = ({ history, location }) => {
         <Section>
           <ProductDetail>
             <ImgWrap>
-              <ImgDetail src = {loca.imgUrl} alt="상품이미지" /> 
+              <ImgDetail src={loca.imgUrl} alt="상품이미지" />
             </ImgWrap>
             <InfoWrap>
               <Info>
@@ -118,7 +117,7 @@ const Wrap = styled.div`
   @media only screen and (min-width: 768px) and (max-width: 1023px) {
   }
   @media only screen and (min-width: 1024px) and (max-width: 1200px) {
-    height: 100vh
+    height: 100vh;
   }
 `;
 
@@ -126,13 +125,10 @@ const Section = styled.div`
   margin-top: 64px;
   width: 77%;
   @media only screen and (max-width: 479px) {
-  
   }
   @media only screen and (min-width: 480px) and (max-width: 767px) {
-
   }
   @media only screen and (min-width: 768px) and (max-width: 1023px) {
-
   }
   @media only screen and (min-width: 1024px) and (max-width: 1200px) {
   }
@@ -171,25 +167,23 @@ const ImgWrap = styled.div`
     width: 60%;
   }
   @media only screen and (min-width: 1024px) and (max-width: 1200px) {
-  width: 60%; 
+    width: 60%;
   }
   /* height: 300px; */
 `;
-
 
 const ImgDetail = styled.img`
   width: 60%;
   @media only screen and (max-width: 479px) {
     width: 100%;
   }
-  @media only screen and (min-width: 480px) and (max-width: 767px) {  
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
   }
-  @media only screen and (min-width: 768px) and (max-width: 1023px) { 
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
   }
   @media only screen and (min-width: 1024px) and (max-width: 1200px) {
-  width: 60%; 
+    width: 60%;
   }
-  
 `;
 
 const InfoWrap = styled.div`
@@ -201,7 +195,7 @@ const InfoWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  @media only screen and (max-width: 479px) {  
+  @media only screen and (max-width: 479px) {
     margin: auto;
   }
   @media only screen and (min-width: 480px) and (max-width: 767px) {
@@ -219,22 +213,20 @@ const Info = styled.div`
   margin-left: -15px;
   font-size: 14px;
   color: #333;
-  @media only screen and (max-width: 479px) {  
+  @media only screen and (max-width: 479px) {
   }
   @media only screen and (min-width: 480px) and (max-width: 767px) {
   }
   @media only screen and (min-width: 768px) and (max-width: 1023px) {
-   
   }
   @media only screen and (min-width: 1024px) and (max-width: 1200px) {
-  
   }
 `;
 
 const Brand = styled.div`
   font-size: 22px;
   padding-bottom: 8px;
-  @media only screen and (max-width: 479px) {  
+  @media only screen and (max-width: 479px) {
     font-size: 15px;
   }
 `;
@@ -244,14 +236,14 @@ const Name = styled.div`
   color: #555;
   padding-bottom: 5px;
   font-weight: 300;
-  @media only screen and (max-width: 479px) {  
+  @media only screen and (max-width: 479px) {
     font-size: 12px;
   }
 `;
 
 const Price = styled.div`
   font-size: 18px;
-  @media only screen and (max-width: 479px) {  
+  @media only screen and (max-width: 479px) {
     font-size: 12px;
   }
 `;
@@ -262,7 +254,7 @@ const PDetail = styled.div`
   color: #555;
   padding-top: 10px;
   padding-bottom: 5px;
-  @media only screen and (max-width: 479px) {  
+  @media only screen and (max-width: 479px) {
     font-size: 12px;
   }
 `;

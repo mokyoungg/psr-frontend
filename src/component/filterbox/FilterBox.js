@@ -1,30 +1,11 @@
 import React, { Component, useState, useEffect } from "react";
-import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-const FilterBox = ({
-  checked,
-  handleCheck,
-  check,
-  category,
-  setCheck,
-  data,
-  key,
-  id,
-  gender,
-}) => {
+const FilterBox = ({ check, category }) => {
   return (
     <ItemContainer>
       <ItemInner>
-        <CheckBox
-          //value={value}
-          //key={key}
-          //id={key}
-          type="checkbox"
-          //checked={checked}
-          //onChange={handleCheck({ key })}
-          onClick={() => check(category)}
-        />
+        <CheckBox type="checkbox" onClick={() => check(category)} />
         <Label>{category}</Label>
       </ItemInner>
     </ItemContainer>

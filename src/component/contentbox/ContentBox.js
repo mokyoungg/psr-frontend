@@ -1,8 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
-import { connect } from "react-redux";
-import { addImg } from "../../actions/action";
 
 const ContentBox = ({ data }) => {
   const [dataD, setData] = useState({});
@@ -17,13 +15,8 @@ const ContentBox = ({ data }) => {
     setData(data);
   };
 
-  const dataCheck = () => {
-  
-    addImg({ data: data.image });
-  };
-
   return (
-    <Wrap onMouseEnter={() => dataHandler()} onClick={() => dataCheck()}>
+    <Wrap onMouseEnter={() => dataHandler()}>
       <Link
         style={{ textDecoration: "none" }}
         to={{
@@ -45,9 +38,8 @@ const ContentBox = ({ data }) => {
             </ImgWrap>
           </ProductWrap>
           <InfoWrap>
-            <BrandInfo>Brand
-            </BrandInfo>
-            {/*
+            <BrandInfo>Brand</BrandInfo>
+            {/* weardex 아이콘
             <Similar>
               <SimilarIcon
                 src="https://www.weardex.com/images/similar-normal.png"
@@ -65,9 +57,9 @@ const ContentBox = ({ data }) => {
   );
 };
 
-export default connect(null, { addImg })(ContentBox);
-//style
+export default ContentBox;
 
+//style
 const Wrap = styled.div`
   position: relative;
   min-height: 1px;
@@ -218,10 +210,10 @@ const Price = styled.div`
   color: #777;
 `;
 
-const Score = styled.div `
+const Score = styled.div`
   visibility: visible;
   height: 18px;
   font-size: 12px;
   line-height: 18px;
   color: #777;
-`
+`;

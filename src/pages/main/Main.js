@@ -7,31 +7,12 @@ import Content from "./Content";
 import Filter from "./Filter";
 import SearchBox from "../../component/searchbox/SearchBox";
 import { URL } from "../../Config";
-import { trackPromise } from "react-promise-tracker";
 import Indicator from "../../component/Indicator/Indicator";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import Loader from "react-loader-spinner";
-import { connect } from "react-redux";
-import { addImg } from "../../actions/action";
-import SideBar from "../../component/sidebar/SideBar";
 
 const Main = ({ history }) => {
-  /*
-  const [state, setState] = useState({
-    data: [],
-    category: [],
-
-    
-    color: [],
-    brand: [],
-    img_url: "",
-    boxview: false,
-  });
-  */
   const [data, setData] = useState([]);
   const [category, setCate] = useState([]);
-  const [color, setColor] = useState([]);
-  const [brand, setBrand] = useState([]);
   const [img_url, setImgUrl] = useState("");
   const [img_file, setImgFile] = useState("");
   const [boxview, setBox] = useState(false);
@@ -54,34 +35,18 @@ const Main = ({ history }) => {
   const [strToAl, setGA] = useState([]);
   const [filterOn, setOn] = useState(false);
 
+  //반응형, 휴대폰 화면시 클릭하여 filter 화면 띄우기
   const handleOn = () => {
-    setOn(!filterOn)
-  }
-  //분명히 이것보다 간편한 방법이 있을 것이다. 나중에 조정해야할 필요가 있다.
+    setOn(!filterOn);
+  };
 
+  // 가격 슬라이더 : 슬라이더가 변하면서 그에 따른 가격 표시
   const handlePrice = (event, newValue) => {
     setPrice(newValue);
     setTempP(newValue);
   };
 
-  const handleCheck = (key) => {
-    //console.log("key :", key);
-    //setValue(e.target.value);
-    setChecked(!checked);
-  };
-
-  const handleLoad = () => {
-    setLoad(false);
-  };
-
-  const arrFilter = (arr, key) => {
-    const newarr = [];
-    arr.map((abc) => {
-      newarr.push(abc[key]);
-    });
-    return Array.from(new Set(newarr));
-  };
-
+  // 받은 데이터의 label1의 값(M/W/U)을 Man, Woman, Unisex로 바꿈
   const genderFilter = (data) => {
     let result = [];
 
@@ -103,6 +68,7 @@ const Main = ({ history }) => {
     return Array.from(new Set(result));
   };
 
+  // 받은 데이터의 label2 와 label3의 값을 통해 문자로 바꿈
   const categoryFilter = (data) => {
     let result = [];
 
@@ -176,6 +142,8 @@ const Main = ({ history }) => {
     });
     return Array.from(new Set(result));
   };
+
+  // 카테고리의 문자를 숫자 형식으로 바꿔 줌
   const stringToNum = (aaa) => {
     let result = [];
     const rule = {
@@ -213,6 +181,7 @@ const Main = ({ history }) => {
     return result;
   };
 
+  // 카테고리 선택시, 필터가 작동하게 만듬
   const lastFilter = (a, b) => {
     let result = [];
     for (let i = 0; i < a.length; i++) {
@@ -228,6 +197,7 @@ const Main = ({ history }) => {
     return result;
   };
 
+  // 젠더 카테고리 선택시, 필터가 작동
   const genLastFilter = (a, b) => {
     let result = [];
     for (let i = 0; i < a.length; i++) {
@@ -240,6 +210,7 @@ const Main = ({ history }) => {
     return result;
   };
 
+  // 받은 데이터 부분 중 상품 데이터만 모음.
   const makeData = (aaa) => {
     let result = [];
     for (let i = 0; i < aaa.length; i++) {
@@ -248,6 +219,7 @@ const Main = ({ history }) => {
     return result;
   };
 
+  // 받은 데이터 부분 중 좌표 값만 모음
   const makeCoordi = (aaa) => {
     let result = [];
     for (let i = 0; i < aaa.length; i++) {
@@ -256,6 +228,7 @@ const Main = ({ history }) => {
     return result;
   };
 
+  // 모은 좌표 값을 사용할 수 있는 형태로 만듬
   const mCoordi = (aaa) => {
     let result = [];
     for (let i = 0; i < aaa.length / 4 + 1; i++) {
@@ -265,14 +238,20 @@ const Main = ({ history }) => {
     return result;
   };
 
+  // 렌더(화면이 뜰 때)가 될 때 데이터를 받음
   useEffect(() => {
+    //loading indicator 부분
     setTimeout(() => {
       setLoad(false);
     }, 3000);
-    fetch(`${URL}`) //`${URL}/` http://localhost:3000/data/data.json
+
+    // 데이터를 받는 부분
+    fetch(`${URL}`)
       .then((res) => res.json())
       .then((res) => {
+        // boxview 의 여부에 따라 받는 데이터가 다름(최초 페이지와 검색 결과 페이지)
         if (boxview === false) {
+          //가격 필터를 위한 세팅
           const price = res.product.map((data) => data.price);
           const max = price.reduce(function (pre, cur) {
             return pre > cur ? pre : cur;
@@ -280,40 +259,51 @@ const Main = ({ history }) => {
           const min = price.reduce(function (pre, cur) {
             return pre > cur ? cur : pre;
           });
+
+          // 받은 데이터를 state 값으로 저장
           setData(res.product);
           setCate(categoryFilter(res.product));
           setMin(min);
           setMax(max);
           setPrice([min, max]);
           setGen(genderFilter(res.product));
+
+          // checkk 의 값을 통해 state 값의 변화를 주고 새로 render 한다.
+          // checkk 는 카테고리 필터 부분(outer, top 등)에 따라 필터
           if (checkk.length > 0) {
             const checkedData = lastFilter(res.product, strTonum);
             setData(checkedData);
+
+            //가격에 따라 필터가 되도록
             if (tempP.legnth > 0) {
               const priceData = checkedData.filter(
                 (data) => tempP[0] <= data.price && data.price <= tempP[1]
               );
               setData(priceData);
               setPrice(tempP[0], tempP[1]);
+
+              // gender 체크에 따라 필터가 되도록
               if (checkG.length > 0) {
                 const genderData = genLastFilter(priceData, strToAl);
                 setData(genderData);
               }
             }
+
+            // 가격에 따라 필터가 되도록(가격 필터만)
           } else if (tempP.length > 0) {
             const priceData = res.product.filter(
               (data) => tempP[0] <= data.price && data.price <= tempP[1]
             );
-            
             setData(priceData);
             setPrice([tempP[0], tempP[1]]);
+
+            // gender 에 따라 필터가 되도록(gender 필터만)
           } else if (checkG.length > 0) {
             const genderData = genLastFilter(res.product, strToAl);
             setData(genderData);
           }
-          //setCate(arrFilter(res.data, category));
-          //setBrand(arrFilter(res.data, brand));
-          //setColor(arrFilter(res.data, color));
+
+          // 검색했을 때(url 또는 파일) 데이터 받는 부분
         } else if (boxview === true) {
           const price = tempD.map((data) => data.price);
           const max = price.reduce(function (pre, cur) {
@@ -354,11 +344,13 @@ const Main = ({ history }) => {
       });
   }, [checkk, boxview, ren, checkG]);
 
+  // 검색할 이미지 url 세팅
   const setSearch = (e) => {
     setImgUrl(e.target.value);
     setBox(false);
   };
 
+  // 셋팅 된 url로 검색
   const doSearch = () => {
     setCheck([]);
     setRen(!ren);
@@ -388,6 +380,7 @@ const Main = ({ history }) => {
     }
   };
 
+  //업로드 파일 세팅
   const setFile = (e) => {
     let reader = new FileReader();
     let file = e.target.files[0];
@@ -405,6 +398,7 @@ const Main = ({ history }) => {
     }
   };
 
+  //세팅 된 파일 검색
   const fileSearch = (file) => {
     setCheck([]);
     setRen(!ren);
@@ -431,6 +425,8 @@ const Main = ({ history }) => {
   };
 
   //checkk 는 state, 빈 배열
+
+  //체크박스 클릭하여 state 값 저장
   const check = (category) => {
     console.log("들어오는 데이터 :", category);
 
@@ -448,6 +444,7 @@ const Main = ({ history }) => {
     }
   };
 
+  //gender Unisex, man, woman 부분 알파벳(U, A, M)으로 바꾸기
   const stringToAl = (aaa) => {
     let result = [];
     const rule = {
@@ -462,6 +459,7 @@ const Main = ({ history }) => {
     return result;
   };
 
+  // gender 체크하여 state 저장
   const genderCheck = (category) => {
     console.log("들어오는 데이터 :", category);
     let result = [];
@@ -478,11 +476,11 @@ const Main = ({ history }) => {
     }
   };
 
+  //SearcBox 부분 데이터 저장
   const handleData = (index) => {
     setData(res[index].product);
   };
 
- 
   return (
     <Wrap>
       <Header />
@@ -505,16 +503,14 @@ const Main = ({ history }) => {
             fileSearch={fileSearch}
           />
           <Hidden>
-            <FilterBtn onClick={()=> handleOn()}>상세필터</FilterBtn>
-            {filterOn &&
-            <Filter  value={value}
+            <FilterBtn onClick={() => handleOn()}>상세필터</FilterBtn>
+            {filterOn && (
+              <Filter
+                value={value}
                 checked={checked}
-                handleCheck={handleCheck}
                 check={check}
                 setCheck={setCheck}
-                color={color}
                 category={category}
-                brand={brand}
                 data={data}
                 price={price}
                 minP={minP}
@@ -523,7 +519,9 @@ const Main = ({ history }) => {
                 setRen={setRen}
                 ren={ren}
                 gender={gender}
-                genderCheck={genderCheck} />}
+                genderCheck={genderCheck}
+              />
+            )}
           </Hidden>
         </TopSection>
 
@@ -543,12 +541,9 @@ const Main = ({ history }) => {
               <Filter
                 value={value}
                 checked={checked}
-                handleCheck={handleCheck}
                 check={check}
                 setCheck={setCheck}
-                color={color}
                 category={category}
-                brand={brand}
                 data={data}
                 price={price}
                 minP={minP}
@@ -686,12 +681,12 @@ const Hidden = styled.div`
   }
 `;
 
-const FilterBtn = styled.div `
+const FilterBtn = styled.div`
   font-size: 15px;
   padding: 3%;
   text-align: center;
   border: 0.5px solid #ddd;
-`
+`;
 
 //반응형 기준
 /* PC , 테블릿 가로 (해상도 768px ~ 1023px)

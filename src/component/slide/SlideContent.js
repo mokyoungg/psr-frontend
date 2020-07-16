@@ -4,6 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 
 const SlideContent = ({ handleRen, data }) => {
   const [dataD, setData] = useState({});
+  const [url, setUrl] = useState();
   const numberFormat = (num) => {
     if (num > 1000) {
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -16,29 +17,34 @@ const SlideContent = ({ handleRen, data }) => {
     setData(data);
   };
 
+  const urlSet = () => {
+    console.log("url :", data);
+  };
   console.log("dataD :", dataD);
   return (
-    <Wrap onClick={() => dataHandler()}>
-      <Link
-        style={{ textDecoration: "none" }}
-        to={{
-          pathname: "/detail",
-          state: {
-            imgUrl: data.product_uri,
-            name: data.product_name,
-            price: data.price,
-            label1: data.product_label1,
-            label2: data.product_labe2,
-            label3: data.product_label3,
-          },
-        }}
-      >
-        <ContentWrap>
+    <Wrap onClick={() => dataHandler()} onMouseEnter={() => urlSet()}>
+      <ContentWrap>
+        <Link
+          style={{ textDecoration: "none" }}
+          to={{
+            pathname: "/detail",
+            state: {
+              imgUrl: data.product_uri,
+              name: data.product_name,
+              price: data.price,
+              label1: data.product_label1,
+              label2: data.product_labe2,
+              label3: data.product_label3,
+            },
+          }}
+        >
           <ProductWrap>
             <ImgWrap>
               <Img src={data.product_uri || data.image} alt="product" />
             </ImgWrap>
           </ProductWrap>
+        </Link>
+        <a href="www.naver.com" target="_blank">
           <InfoWrap>
             <BrandInfo>{data.brand}</BrandInfo>
             {/*
@@ -52,14 +58,15 @@ const SlideContent = ({ handleRen, data }) => {
             <ProductName>{data.product_name || data.name}</ProductName>
             <Price>{numberFormat(data.price) + `원`}</Price>
           </InfoWrap>
-        </ContentWrap>
-      </Link>
+        </a>
+      </ContentWrap>
     </Wrap>
   );
 };
 
-export default SlideContent;
+export default withRouter(SlideContent);
 
+const a = styled.a;
 const Wrap = styled.div`
   position: relative;
   min-height: 1px;
@@ -80,7 +87,6 @@ const Wrap = styled.div`
   @media only screen and (min-width: 1024px) and (max-width: 1200px) {
     width: 250px;
   }
-
 `;
 
 // transition: all 0.5s ease-in-out;
