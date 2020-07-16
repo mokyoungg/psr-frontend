@@ -19,8 +19,10 @@ const SlideContent = ({ handleRen, data }) => {
 
   const urlSet = () => {
     console.log("url :", data);
+    setUrl(data.product_uri);
   };
-  console.log("dataD :", dataD);
+
+  console.log("go :", url);
   return (
     <Wrap onClick={() => dataHandler()} onMouseEnter={() => urlSet()}>
       <ContentWrap>
@@ -44,7 +46,7 @@ const SlideContent = ({ handleRen, data }) => {
             </ImgWrap>
           </ProductWrap>
         </Link>
-        <a href="www.naver.com" target="_blank">
+        <a href={url} target="_blank">
           <InfoWrap>
             <BrandInfo>{data.brand}</BrandInfo>
             {/*

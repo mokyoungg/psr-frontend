@@ -15,8 +15,11 @@ const ContentBox = ({ data }) => {
     setData(data);
   };
 
+  const handle = () => {
+    console.log("data :", data);
+  };
   return (
-    <Wrap onMouseEnter={() => dataHandler()}>
+    <Wrap onMouseEnter={() => dataHandler()} onMouseEnter={() => handle()}>
       <Link
         style={{ textDecoration: "none" }}
         to={{
