@@ -7,6 +7,8 @@
 >Demo
 https://www.youtube.com/watch?v=WyCnexeF1dg
 
+>리팩토링 중 : https://github.com/mokyoungg/PSR_Refactoring
+
 ## 목표
 - AI 기술을 활용한 제품 추천 기능의 광고 상품 프로토 타입 개발
 - 이미지 URL 또는 이미지 파일을 Back-End API로 전달 및 결과 창 구현
