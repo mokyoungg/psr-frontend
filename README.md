@@ -4,10 +4,11 @@
 - Github Repository
 - WeCode 8기 수강생들의 기업협업 프로젝트입니다. 3명의 개발자가 함께 협업했습니다. (1 Front-End, 2Back-End)
 
+>리팩토링 : https://github.com/mokyoungg/PSR_Refactoring
+
 >Demo
 https://www.youtube.com/watch?v=WyCnexeF1dg
 
->리팩토링 중 : https://github.com/mokyoungg/PSR_Refactoring
 
 ## 목표
 - AI 기술을 활용한 제품 추천 기능의 광고 상품 프로토 타입 개발
