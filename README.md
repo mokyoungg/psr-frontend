@@ -1,10 +1,9 @@
 # PSR미디어 광고 상품 프로토 타입 개발 프로젝트
+>리팩토링 : https://github.com/mokyoungg/PSR_Refactoring
 
 - 2020.6.22-2020.7.16 (1달)
 - Github Repository
 - WeCode 8기 수강생들의 기업협업 프로젝트입니다. 3명의 개발자가 함께 협업했습니다. (1 Front-End, 2Back-End)
-
->리팩토링 : https://github.com/mokyoungg/PSR_Refactoring
 
 >Demo
 https://www.youtube.com/watch?v=WyCnexeF1dg
